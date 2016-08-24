@@ -18,29 +18,27 @@ void build_prompt_string (char * prompt) {
         prompt[prompt_siz+i] = "): "[i];
 }
 
-int build_child_call (char * command, char ** argv) {
+int count_arguments (char * command) {
     int i;
-    int argc = 1;
-    char ls = 0;
+    int argc = 0;
 
-    for (i = 0; command[i]; ls = command[i++]) {
-        if (ls == ' ' && command[i] != ls) {
+    for (i = 0; command[i]; i++)
+        if (command[i] != ' ' && (i == 0 || command[i-1] == ' '))
             argc++;
-        }
-    }
+    return argc + 1;
+}
 
-    argv = (char **) malloc(sizeof(char **) * argc);
-
-    argc = 0;
-    ls = 0;
-    for (i = 0; command[i]; ls = command[i++]) {
+void build_call (char * command, char ** argv) {
+    int argc = 0;
+    int i;
+    for (i = 0; command[i]; i++) {
         if (command[i] == ' ') {
             command[i] = 0;
-        } else if (ls == 0) {
+        } else if (i == 0 || command[i-1] == 0) {
             argv[argc++] = command+i;
         }
     }
-    return argc;
+    argv[argc] = NULL;
 }
 
 int main (int argc, char * argv[]) {
@@ -50,22 +48,28 @@ int main (int argc, char * argv[]) {
     char prompt[PROMPT_SIZE];
     pid_t pid;
     int call_status;
-    int i;
+    char running = 1;
 
-    while (1) {
+    while (running) {
         build_prompt_string(prompt);
         command = readline(prompt);
+        add_history(command);
 
-        if ((pid = fork()) == 0) {
-            call_status = build_child_call(command, c_argv);
-            for (i = 0; i < call_status; i++)
-                printf("%s\n", c_argv[i]);
-            execve(command, c_argv, c_arge);
-        } else {
-            call_status = 42;
+        c_argv = (char **) malloc(sizeof(char *) * count_arguments(command));
+        build_call(command, c_argv);
+
+        if (strcmp(c_argv[0], "exit") == 0) {
+            running = 0;
+        } else if ((pid = fork()) == 0) {
+            call_status = execve(c_argv[0], c_argv, c_arge);
+        }
+
+        if (running) {
             waitpid(pid, &call_status, 0);
         }
+
         free(c_argv);
+        free(command);
     }
 
     return 0;
