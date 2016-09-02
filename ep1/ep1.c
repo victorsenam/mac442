@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 #include "debug.h"
-#include "fcfs.h"
 #include "task.h"
 
 int scheduler_id;
 
 double get_sec (clock_t a, clock_t b) {
-    return (b-a)/CLOCKS_PER_SEC;
+    return ((double)(b-a))/CLOCKS_PER_SEC;
 }
 
 int main (int argc, char * argv[]) {
@@ -28,18 +28,17 @@ int main (int argc, char * argv[]) {
     // checking for optional debug flag
     debug_flag = 0;
     for (i = 4; i < argc; i++)
-        debug_flag |= (strlen(argv[i]) == 1 && argv[i][0] == 'd');
+        debug_flag |= (argv[i][0] == 'd' && !argv[i][1]);
 
     // reading tasks
+    debug("%d\n", task_n);
+    debug("Sena otário\n");
     task_init();
     while (task_read());
 
-    i = 0;
-    while (i < task_n) {
-        if (get_sec(clock_init, clock()) >= task_tasks[i].t0) {
-            debug("task %s [#%d] entrou na fila\n", task_tasks[i].name, i);
-            i++;
-        }
+    for (i = 0; i < task_n; i++) {
+        debug("Adding task %s #%d at %f\n", task_tasks[i].name, i, get_sec(clock_init, clock()));
+        sleep(1);
     }
 
     task_deinit();

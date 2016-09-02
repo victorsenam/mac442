@@ -27,6 +27,8 @@ void task_add (double t0, char * name, double dt, double fn) {
 
     task_tasks[task_n].name = (char *) malloc(sizeof(char) * name_size);
     strcpy(task_tasks[task_n].name, name);
+
+    task_n++;
 }
 
 void task_free (int i) {
