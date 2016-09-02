@@ -22,8 +22,8 @@ int main (int argc, char * argv[]) {
     }
 
     sscanf(argv[1], "%d", &scheduler_id);
-    freopen(stdin, "r", argv[2]);
-    freopen(stdout, "w", argv[3]);
+    freopen(argv[2], "r", stdin);
+    freopen(argv[3], "w", stdout);
 
     // checking for optional debug flag
     debug_flag = 0;
@@ -34,9 +34,12 @@ int main (int argc, char * argv[]) {
     task_init();
     while (task_read());
 
-    for (i = 0; i < task_n; i++) {
-        while (get_setc(clock_init, clock()) < task_tasks[i].t0);
-        debug("task %s [#%d] entrou na fila\n", task_tasks[i].name, i);
+    i = 0;
+    while (i < task_n) {
+        if (get_sec(clock_init, clock()) >= task_tasks[i].t0) {
+            debug("task %s [#%d] entrou na fila\n", task_tasks[i].name, i);
+            i++;
+        }
     }
 
     task_deinit();
