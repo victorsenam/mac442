@@ -4,13 +4,22 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <pthread.h>
 
 #define MAX_SIZE (1<<11)
 #define INIT_SIZE 8
 
 typedef struct {
-    double t0, dt, fn;
+    double start_time;
+    double remaining_time;
+
+    double duration;
+    double deadline;
     char * name;
+
+	pthread_t thread;
+
+    char running;
 } task_obj;
 
 int task_n;

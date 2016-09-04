@@ -21,9 +21,10 @@ void task_add (double t0, char * name, double dt, double fn) {
 
     name_size = strlen(name);
 
-    task_tasks[task_n].t0 = t0;
-    task_tasks[task_n].dt = dt;
-    task_tasks[task_n].fn = fn;
+    task_tasks[task_n].start_time = t0;
+    task_tasks[task_n].duration = dt;
+    task_tasks[task_n].deadline = fn;
+    task_tasks[task_n].running = 1;
 
     task_tasks[task_n].name = (char *) malloc(sizeof(char) * name_size);
     strcpy(task_tasks[task_n].name, name);

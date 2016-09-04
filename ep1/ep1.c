@@ -2,19 +2,18 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#include <pthread.h>
 #include "debug.h"
+#include "helper.h"
 #include "task.h"
+#include "process.h"
 
 int scheduler_id;
 
-double get_sec (clock_t a, clock_t b) {
-    return ((double)(b-a))/CLOCKS_PER_SEC;
-}
-
 int main (int argc, char * argv[]) {
     int i;
-    clock_t clock_init = clock();
-
+    //clock_t clock_init = clock();
+    
     /* Reading command parameters */
     if (argc < 4) {
         fprintf(stderr, "Fatal Error: Not enough parameters\n");
@@ -31,16 +30,25 @@ int main (int argc, char * argv[]) {
         debug_flag |= (argv[i][0] == 'd' && !argv[i][1]);
 
     // reading tasks
-    debug("%d\n", task_n);
-    debug("Sena otário\n");
     task_init();
     while (task_read());
 
     for (i = 0; i < task_n; i++) {
-        debug("Adding task %s #%d at %f\n", task_tasks[i].name, i, get_sec(clock_init, clock()));
-        sleep(1);
+        int * arg = malloc(sizeof(*arg));
+        *arg = i;
+
+        if (pthread_create(&(task_tasks[i].thread), NULL, process_runner, arg)) {
+            fprintf(stderr, "Fatal Error: Could not create thread %d\n", i);
+            return 2;
+        }
+    }
+
+    for (int i = 0; i < task_n; i++) {
+        if (pthread_join(task_tasks[i].thread, NULL)) {
+            fprintf(stderr, "Fatal Error: Could not join thread %d\n", i);
+            return 3;
+        }
     }
 
     task_deinit();
-    
 }
