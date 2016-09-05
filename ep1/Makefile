@@ -1,4 +1,4 @@
-GCC_FLAGS=-Wall -pedantic -g
+GCC_FLAGS=-Wall -pedantic -g -std=c99
 FILES=ep1sh ep1 task debug helper process fcfs
 
 clear:
