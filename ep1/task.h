@@ -24,6 +24,8 @@ typedef struct {
 
 int task_n;
 int task_siz;
+int task_running;
+
 task_obj * task_tasks;
 
 void task_init ();
@@ -31,5 +33,7 @@ void task_add (double t0, char * name, double dt, double fn);
 void task_free (int i);
 void task_deinit ();
 char task_read ();
+void task_stop (task_obj * task);
+void task_run (task_obj * task);
 
 #endif

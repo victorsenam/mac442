@@ -56,3 +56,13 @@ char task_read () {
 
     return 1;
 }
+
+void task_run (task_obj * task) {
+    task->running = 1;
+    task_running++;
+}
+
+void task_stop (task_obj * task) {
+    task->running = 0;
+    task_running--;
+}

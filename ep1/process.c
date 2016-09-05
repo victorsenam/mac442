@@ -17,7 +17,7 @@ void * process_runner (void * task_ref) {
     }
 
     debug("Task %s finished\n", task->name);
-    process_running--;
+    task_stop(task);
     
     return NULL;
 }
