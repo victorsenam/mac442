@@ -43,8 +43,8 @@ void queue_pop () {
     queue[queue_n] = queue[1];
     queue[1] = aux;
 
-    queue_sink_down(1);
     queue_n--;
+    queue_sink_down(1);
 }
 
 void queue_swim_up (int i) {
