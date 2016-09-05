@@ -10,7 +10,7 @@ int fcfs_main() {
 	while (process_running || current_task < task_n || queue_n) {
 		double current_time = get_sec(initial_clock, clock());
 		// check trace for incoming tasks
-		if (current_time >= task_tasks[current_task].start_time) {
+		if (current_task < task_n && current_time >= task_tasks[current_task].start_time) {
 			queue_add(task_tasks + current_task);
 			current_task++;
 		}
