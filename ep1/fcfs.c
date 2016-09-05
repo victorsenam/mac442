@@ -30,6 +30,7 @@ int fcfs_assign (int idx) {
 
 	task_run(curr);
 
+    curr->has_thread = 1;
 	if (pthread_create(&(curr->thread), NULL, process_runner, curr)) {
 		fprintf(stderr, "Fatal Error: Could not create thread: %s\n", curr->name);
 		return 2;

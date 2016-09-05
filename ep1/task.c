@@ -26,6 +26,7 @@ void task_add (double t0, char * name, double dt, double fn) {
     task_tasks[task_n].remaining_time = task_tasks[task_n].duration = dt;
     task_tasks[task_n].deadline = fn;
     task_tasks[task_n].running = 0;
+    task_tasks[task_n].has_thread = 0;
 
     task_tasks[task_n].name = (char *) malloc(sizeof(char) * name_size);
     strcpy(task_tasks[task_n].name, name);
@@ -58,11 +59,13 @@ char task_read () {
 }
 
 void task_run (task_obj * task) {
+    debug("Running task %s\n", task->name);
     task->running = 1;
     task_running++;
 }
 
 void task_stop (task_obj * task) {
+    debug("Stopping task %s\n", task->name);
     task->running = 0;
     task_running--;
 }

@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include "debug.h"
 
 #define MAX_SIZE (1<<11)
 #define INIT_SIZE 8
@@ -18,6 +19,7 @@ typedef struct {
     char * name;
 
 	pthread_t thread;
+    char has_thread;
 
     char running;
 } task_obj;

@@ -7,6 +7,7 @@
 #include "helper.h"
 #include "task.h"
 #include "fcfs.h"
+#include "srtn.h"
 #include "process.h"
 
 int main (int argc, char * argv[]) {
@@ -36,6 +37,8 @@ int main (int argc, char * argv[]) {
     // calling main loop
     if (scheduler_id == 1) {
         main_loop_status = fcfs_main();
+    } else if (scheduler_id == 2) {
+        main_loop_status = srtn_main();
     } else {
         fprintf(stderr, "Fatal Error: Unrecognized Scheduler id %d\n", scheduler_id);
         return 4;
