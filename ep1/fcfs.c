@@ -6,31 +6,26 @@ int fcfs_main() {
 	clock_t initial_clock = clock();
 	int return_status;
 
-	queue_init();
-
 	while (process_running || current_task < task_n || next_task < task_n) {
 		double current_time = get_sec(initial_clock, clock());
 		// check trace for incoming tasks
 		if (current_task < task_n && current_time >= task_tasks[current_task].start_time) {
-			queue_add(task_tasks + current_task);
 			current_task++;
 		}
 
 		// assigns a new process to a runner, if possible
 		if (process_running < 1 && next_task < current_task) {
-			if ((return_status = fcfs_assign())) {
+			if ((return_status = fcfs_assign(next_task++))) {
 				return return_status;
 			}
 		}
 	}
 
-	queue_deinit();
-
 	return 0;
 }
 
-int fcfs_assign () {
-	task_obj * curr = &(task_tasks[next_task++]);
+int fcfs_assign (int idx) {
+	task_obj * curr = task_tasks + idx;
 
 	curr->running = 1;
 	process_running++;
