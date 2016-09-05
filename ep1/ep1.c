@@ -6,13 +6,13 @@
 #include "debug.h"
 #include "helper.h"
 #include "task.h"
+#include "fcfs.h"
 #include "process.h"
-
-int scheduler_id;
 
 int main (int argc, char * argv[]) {
     int i;
-    //clock_t clock_init = clock();
+    int scheduler_id;
+    int main_loop_status;
     
     /* Reading command parameters */
     if (argc < 4) {
@@ -33,14 +33,16 @@ int main (int argc, char * argv[]) {
     task_init();
     while (task_read());
 
-    for (i = 0; i < task_n; i++) {
-        int * arg = malloc(sizeof(*arg));
-        *arg = i;
+    // calling main loop
+    if (scheduler_id == 1) {
+        main_loop_status = fcfs_main();
+    } else {
+        fprintf(stderr, "Fatal Error: Unrecognized Scheduler id %d\n", scheduler_id);
+        return 4;
+    }
 
-        if (pthread_create(&(task_tasks[i].thread), NULL, process_runner, arg)) {
-            fprintf(stderr, "Fatal Error: Could not create thread %d\n", i);
-            return 2;
-        }
+    if (main_loop_status) {
+        return main_loop_status;
     }
 
     for (int i = 0; i < task_n; i++) {

@@ -9,9 +9,10 @@ void task_init () {
 
 void task_add (double t0, char * name, double dt, double fn) {
     int i, name_size;
+    task_obj * nw;
     if (task_n == task_siz) {
         task_siz *= 2;
-        task_obj * nw = (task_obj*) malloc(sizeof(task_obj) * task_siz);
+        nw = (task_obj*) malloc(sizeof(task_obj) * task_siz);
 
         for (i = 0; i < task_n; i++)
             nw[i] = task_tasks[i];
@@ -22,9 +23,9 @@ void task_add (double t0, char * name, double dt, double fn) {
     name_size = strlen(name);
 
     task_tasks[task_n].start_time = t0;
-    task_tasks[task_n].duration = dt;
+    task_tasks[task_n].remaining_time = task_tasks[task_n].duration = dt;
     task_tasks[task_n].deadline = fn;
-    task_tasks[task_n].running = 1;
+    task_tasks[task_n].running = 0;
 
     task_tasks[task_n].name = (char *) malloc(sizeof(char) * name_size);
     strcpy(task_tasks[task_n].name, name);

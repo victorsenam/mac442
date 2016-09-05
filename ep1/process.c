@@ -1,13 +1,10 @@
 #include "process.h"
 
-void * process_runner (void * idx) {
-    int id = *((int *) idx);
-    task_obj * task = (task_tasks + id);
+void * process_runner (void * task_ref) {
+    task_obj * task = (task_obj *) task_ref;
     clock_t last_clock, current_clock;
 
-    debug("Task %s (#%d) started\n", task->name, id);
-
-    task->remaining_time = task->duration;
+    debug("Task %s started\n", task->name);
 
     last_clock = clock();
 
@@ -19,7 +16,8 @@ void * process_runner (void * idx) {
         last_clock = current_clock;
     }
 
-    debug("Task %s (#%d) finished\n", task->name, id);
+    debug("Task %s finished\n", task->name);
+    process_running--;
     
     return NULL;
 }

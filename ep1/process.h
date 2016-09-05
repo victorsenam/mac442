@@ -6,6 +6,7 @@
 #include "task.h"
 #include "debug.h"
 
-void * process_runner (void * id);
+int process_running;
+void * process_runner (void * task_ref);
 
 #endif
