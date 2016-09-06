@@ -15,8 +15,8 @@ task_obj ** queue;
 void queue_init ();
 void queue_add (task_obj *);
 void queue_deinit ();
-task_obj * queue_top();
-void queue_pop();
+task_obj * queue_top ();
+void queue_pop ();
 
 void queue_swim_up (int i);
 void queue_sink_down (int i);
