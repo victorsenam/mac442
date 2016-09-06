@@ -59,13 +59,25 @@ char task_read () {
 }
 
 void task_run (task_obj * task) {
-    debug("Running task %s %.4fs\n", task->name, task->remaining_time);
-    task->running = 1;
-    task_running++;
+    pthread_mutex_lock(&task_running_mutex);
+
+    if (!task->running) {
+        debug("Running task %s %.4fs\n", task->name, task->remaining_time);
+        task->running = 1;
+        task_running++;
+    }
+
+    pthread_mutex_unlock(&task_running_mutex);
 }
 
 void task_stop (task_obj * task) {
-    debug("Stopping task %s %.4fs\n", task->name, task->remaining_time);
-    task->running = 0;
-    task_running--;
+    pthread_mutex_lock(&task_running_mutex);
+
+    if (task->running) {
+        debug("Stopping task %s %.4fs\n", task->name, task->remaining_time);
+        task->running = 0;
+        task_running--;
+    }
+
+    pthread_mutex_unlock(&task_running_mutex);
 }

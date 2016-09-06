@@ -26,7 +26,9 @@ typedef struct {
 
 int task_n;
 int task_siz;
+
 int task_running;
+pthread_mutex_t task_running_mutex;
 
 task_obj * task_tasks;
 
