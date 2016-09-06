@@ -20,7 +20,7 @@ int srtn_main() {
 		}
 
 		// assigns a new process to a runner, if possible
-		if (task_running < 1 && queue_n) {
+		if (!task_running && queue_n) {
 			if ((return_status = srtn_assign())) {
                 return return_status;
 			}

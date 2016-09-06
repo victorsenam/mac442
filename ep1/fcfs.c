@@ -14,7 +14,7 @@ int fcfs_main() {
 		}
 
 		// assigns a new process to a runner, if possible
-		if (task_running < 1 && next_task < current_task) {
+		if (!task_running && next_task < current_task) {
 			if ((return_status = fcfs_assign(next_task))) {
 				return return_status;
 			}
