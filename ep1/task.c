@@ -59,13 +59,13 @@ char task_read () {
 }
 
 void task_run (task_obj * task) {
-    debug("Running task %s\n", task->name);
+    debug("Running task %s %.4fs\n", task->name, task->remaining_time);
     task->running = 1;
     task_running++;
 }
 
 void task_stop (task_obj * task) {
-    debug("Stopping task %s\n", task->name);
+    debug("Stopping task %s %.4fs\n", task->name, task->remaining_time);
     task->running = 0;
     task_running--;
 }

@@ -11,7 +11,7 @@ void queue_add (task_obj * x) {
     task_obj ** nw;
     int i;
 
-    debug("Task %s arrived at queue\n", x->name);
+    debug("Task %s arrived at queue %.4fs\n", x->name, x->remaining_time);
     if (queue_n + 1 == queue_size) {
         queue_size *= 2;
         nw = (task_obj **) malloc(sizeof(task_obj *) * queue_size);
@@ -23,7 +23,7 @@ void queue_add (task_obj * x) {
     }
 
     queue[++queue_n] = x;
-    queue_swim_up(queue_n-1);
+    queue_swim_up(queue_n);
 }
 
 void queue_deinit () {
