@@ -3,7 +3,7 @@
 
 #include "process.h"
 #include "task.h"
-#include "queue.h"
+#include "srtn_queue.h"
 
 int srtn_main ();
 int srtn_assign ();
