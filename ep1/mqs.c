@@ -15,7 +15,7 @@ int mqs_main() {
 			current_task++;
 		}
         // check if quantum of current task is done
-        if (mqs_queue_front != mqs_queue_back && mqs_queue_current_queue()*QUANTUM < get_sec(mqs_queue_front_start_time, clock())) {
+        if (mqs_queue_front != mqs_queue_back && mqs_queue_current_queue()*QUANTUM < get_sec(mqs_queue_top_start_time, clock())) {
             task_stop(mqs_queue_top());
             // Promote queue front
             mqs_queue_promote_top();

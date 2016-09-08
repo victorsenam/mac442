@@ -39,7 +39,7 @@ void mqs_queue_add (task_obj * new_task) {
     mqs_queue[mqs_queue_back] = new_task;
     mqs_queue_quantum[mqs_queue_back] = 1;
     if(mqs_queue_front == mqs_queue_back)
-        mqs_queue_front_start_time = clock();
+        mqs_queue_top_start_time = clock();
     mqs_queue_back++;
 }
 
@@ -48,7 +48,7 @@ task_obj * mqs_queue_top () {
 }
 void mqs_queue_pop () {
     mqs_queue_front++;
-    mqs_queue_front_start_time = clock();
+    mqs_queue_top_start_time = clock();
 }
 
 void mqs_queue_promote_top() {

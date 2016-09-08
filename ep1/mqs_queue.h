@@ -17,7 +17,7 @@ task_obj * mqs_queue_top ();
 void mqs_queue_pop ();
 
 int mqs_queue_current_queue ();
-clock_t mqs_queue_front_start_time;
+clock_t mqs_queue_top_start_time;
 
 void mqs_queue_promote_top ();
 
