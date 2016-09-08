@@ -10,7 +10,7 @@ void mqs_queue_init () {
 void mqs_resize () {
     task_obj ** nw;
     int * nq;
-    int new_back;
+    int new_back, i;
 
     if (mqs_queue_back == mqs_queue_size) {
         mqs_queue_size *= 2;
@@ -18,7 +18,7 @@ void mqs_resize () {
         nw = (task_obj **) malloc(sizeof(task_obj *) * mqs_queue_size);
         nq = (int *) malloc(sizeof(int) * mqs_queue_size);
 
-        for(int i=mqs_queue_front;i<mqs_queue_back;i++) {
+        for (i = mqs_queue_front; i < mqs_queue_back; i++) {
             nw[new_back] = mqs_queue[i];
             nq[new_back] = mqs_queue_quantum[i];
             new_back++;
@@ -38,9 +38,10 @@ void mqs_queue_add (task_obj * new_task) {
     mqs_resize();
     mqs_queue[mqs_queue_back] = new_task;
     mqs_queue_quantum[mqs_queue_back] = 1;
-    if(mqs_queue_front == mqs_queue_back)
-        mqs_queue_top_start_time = clock();
     mqs_queue_back++;
+
+    if (mqs_queue_front == mqs_queue_back)
+        mqs_queue_top_start_time = clock();
 }
 
 task_obj * mqs_queue_top () {
