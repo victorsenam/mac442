@@ -3,6 +3,8 @@
 void task_init () {
     task_n = 0;
     task_siz = INIT_SIZE;
+    task_complete_count = 0;
+    task_context_change_count = 0;
     
     task_tasks = (task_obj*) malloc(sizeof(task_obj) * task_siz);
 }
@@ -27,6 +29,7 @@ void task_add (double t0, char * name, double dt, double fn) {
     task_tasks[task_n].deadline = fn;
     task_tasks[task_n].running = 0;
     task_tasks[task_n].has_thread = 0;
+    task_tasks[task_n].id = task_n;
 
     task_tasks[task_n].name = (char *) malloc(sizeof(char) * name_size);
     strcpy(task_tasks[task_n].name, name);
@@ -62,9 +65,10 @@ void task_run (task_obj * task) {
     pthread_mutex_lock(&task_running_mutex);
 
     if (!task->running) {
-        debug("Running task %s %.4fs\n", task->name, task->remaining_time);
+        debug("Processo #%d [%s] começou a usar a CPU\n", task->id, task->name);
         task->running = 1;
         task_running |= 1;
+        task_context_change_count++;
     }
 
     pthread_mutex_unlock(&task_running_mutex);
@@ -74,7 +78,7 @@ void task_stop (task_obj * task) {
     pthread_mutex_lock(&task_running_mutex);
 
     if (task->running) {
-        debug("Stopping task %s %.4fs\n", task->name, task->remaining_time);
+        debug("Processo #%d [%s] parou de usar a CPU\n", task->id, task->name);
         task->running = 0;
         task_running &= 0;
     }

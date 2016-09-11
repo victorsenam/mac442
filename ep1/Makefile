@@ -1,4 +1,4 @@
-GCC_FLAGS=-Wall -pedantic -g -std=c99
+GCC_FLAGS=-Wall -pedantic -g -std=c99 -D _POSIX_C_SOURCE=199309L
 FILES=ep1sh ep1 task debug helper process fcfs srtn_queue srtn mqs mqs_queue
 
 clear:

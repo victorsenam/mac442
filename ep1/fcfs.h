@@ -3,6 +3,7 @@
 
 #include "process.h"
 #include "task.h"
+#include <time.h>
 
 int fcfs_main ();
 int fcfs_assign ();

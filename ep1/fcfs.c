@@ -10,6 +10,8 @@ int fcfs_main() {
 		double current_time = get_sec(initial_clock, clock());
 		// check trace for incoming tasks
 		if (current_task < task_n && current_time >= task_tasks[current_task].start_time) {
+            debug("Processo #%d [%s] chegou no sistema\n", task_tasks[current_task].id, task_tasks[current_task].name);
+            clock_gettime(CLOCK_REALTIME, &task_tasks[current_task].initial_time);
 			current_task++;
 		}
 

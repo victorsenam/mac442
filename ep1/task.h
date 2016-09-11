@@ -5,12 +5,17 @@
 #include <string.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <time.h>
 #include "debug.h"
 
 #define MAX_SIZE (1<<11)
 #define INIT_SIZE 8
 
 typedef struct {
+    int id;
+
+    struct timespec initial_time;
+
     double start_time;
     double remaining_time;
 
@@ -28,6 +33,8 @@ int task_n;
 int task_siz;
 
 char task_running;
+int task_complete_count;
+int task_context_change_count;
 pthread_mutex_t task_running_mutex;
 
 task_obj * task_tasks;

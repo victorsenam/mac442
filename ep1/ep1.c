@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <unistd.h>
-#include <pthread.h>
 #include "debug.h"
 #include "helper.h"
 #include "task.h"
@@ -10,12 +5,19 @@
 #include "srtn.h"
 #include "mqs.h"
 #include "process.h"
+#include <pthread.h>
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 int main (int argc, char * argv[]) {
     int i;
     int scheduler_id;
     int main_loop_status;
     
+    clock_gettime(CLOCK_REALTIME, &main_initial_time);
+
     /* Reading command parameters */
     if (argc < 4) {
         fprintf(stderr, "Fatal Error: Not enough parameters\n");
@@ -57,6 +59,9 @@ int main (int argc, char * argv[]) {
             return 3;
         }
     }
+
+    debug("Fim da simulação. Ocorreram %d mudanças de contexto.\n", task_context_change_count);
+    printf("%d\n", task_context_change_count);
 
     task_deinit();
 }
