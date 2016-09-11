@@ -22,7 +22,7 @@ void task_add (double t0, char * name, double dt, double fn) {
         task_tasks = nw;
     }
 
-    name_size = strlen(name);
+    name_size = strlen(name)+1;
 
     task_tasks[task_n].start_time = t0;
     task_tasks[task_n].remaining_time = task_tasks[task_n].duration = dt;

@@ -66,4 +66,5 @@ int main (int argc, char * argv[]) {
     printf("%d %d\n", task_context_change_count, task_deadline_fail_count);
 
     task_deinit();
+    fclose(outbuff);
 }
