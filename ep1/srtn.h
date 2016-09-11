@@ -4,6 +4,7 @@
 #include "process.h"
 #include "task.h"
 #include "srtn_queue.h"
+#include <time.h>
 
 int srtn_main ();
 int srtn_assign ();

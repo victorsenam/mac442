@@ -11,7 +11,6 @@ void srtn_queue_add (task_obj * x) {
     task_obj ** nw;
     int i;
 
-    debug("Task %s arrived at queue %.4fs\n", x->name, x->remaining_time);
     if (srtn_queue_n + 1 == srtn_queue_size) {
         srtn_queue_size *= 2;
         nw = (task_obj **) malloc(sizeof(task_obj *) * srtn_queue_size);

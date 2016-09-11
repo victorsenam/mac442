@@ -4,6 +4,7 @@
 #include "process.h"
 #include "task.h"
 #include "mqs_queue.h"
+#include <time.h>
 
 #define QUANTUM 0.5
 

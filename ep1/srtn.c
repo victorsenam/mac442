@@ -15,6 +15,8 @@ int srtn_main() {
             if (srtn_queue_n && srtn_queue_top()->remaining_time > task_tasks[current_task].remaining_time) {
                 task_stop(srtn_queue_top());
             }
+            debug("Processo #%d [%s] chegou no sistema\n", task_tasks[current_task].id, task_tasks[current_task].name);
+            clock_gettime(CLOCK_REALTIME, &task_tasks[current_task].initial_time);
             srtn_queue_add(task_tasks + current_task);
 			current_task++;
 		}

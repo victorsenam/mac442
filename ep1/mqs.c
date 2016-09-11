@@ -12,6 +12,8 @@ int mqs_main() {
 		// check trace for incoming tasks
 		if (current_task < task_n && current_time >= task_tasks[current_task].start_time) {
             mqs_queue_add(task_tasks + current_task);
+            debug("Processo #%d [%s] chegou no sistema\n", task_tasks[current_task].id, task_tasks[current_task].name);
+            clock_gettime(CLOCK_REALTIME, &task_tasks[current_task].initial_time);
 			current_task++;
 		}
         // check if quantum of current task is done
