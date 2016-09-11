@@ -26,7 +26,7 @@ int main (int argc, char * argv[]) {
 
     sscanf(argv[1], "%d", &scheduler_id);
     freopen(argv[2], "r", stdin);
-    freopen(argv[3], "w", stdout);
+    outbuff = fopen(argv[3], "w");
 
     // checking for optional debug flag
     debug_flag = 0;
@@ -61,7 +61,9 @@ int main (int argc, char * argv[]) {
     }
 
     debug("Fim da simulação. Ocorreram %d mudanças de contexto.\n", task_context_change_count);
-    printf("%d\n", task_context_change_count);
+    fprintf(outbuff, "%d\n", task_context_change_count);
+
+    printf("%d %d\n", task_context_change_count, task_deadline_fail_count);
 
     task_deinit();
 }

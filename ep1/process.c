@@ -16,7 +16,9 @@ void * process_runner (void * task_ref) {
 
     task_stop(task);
     debug("Processo #%d [%s] finalizado (%d linha da saída)\n", task->id, task->name, task_complete_count++);
-    printf("%s %f %f\n", task->name, seconds_past(&main_initial_time), seconds_past(&task->initial_time));
+    fprintf(outbuff, "%s %f %f\n", task->name, seconds_past(&main_initial_time), seconds_past(&task->initial_time));
+    if (seconds_past(&main_initial_time) > task->deadline)
+        task_deadline_fail_count++;
     
     return NULL;
 }

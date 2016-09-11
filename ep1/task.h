@@ -35,6 +35,7 @@ int task_siz;
 char task_running;
 int task_complete_count;
 int task_context_change_count;
+int task_deadline_fail_count;
 pthread_mutex_t task_running_mutex;
 
 task_obj * task_tasks;
