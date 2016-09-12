@@ -5,6 +5,7 @@
 #include <readline/history.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 #include <errno.h>
 
 #define PROMPT_SIZE (1<<10)
