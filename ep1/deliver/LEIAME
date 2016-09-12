@@ -1,0 +1,21 @@
+Para compilar nosso exercício programa, execute dois comandos:
+    make ep1
+    make ep1sh
+
+Para executar o shell, basta rodar
+    ./ep1sh
+
+O simulador, contudo, trabalha com pelo menos 3 parâmetros:
+    um inteiro indicando qual o escalonador a ser usado
+    arquivo de entrada, conforme especificado no enunciado
+    arquivo de saída
+O primeiro parâmetro do simulador deve ser
+    1, se o objetivo é utilizar o algoritmo first-come first-served
+    2, se o objetivo é utilizar o algoritmo shortest remaining time next
+    3, se o objetivo é utilizar o algoritmo de múltiplas filas
+Sim, fomos matemáticos e não programadores e indexamos em 1.
+Um exemplo de execução para o escalonador seria
+    ./ep1 3 entrada saida
+Pode-se adicionar um 'd' depois do arquivo de saída, para obter mais
+informações de debug, como em
+    ./ep1 3 entrada saida d
