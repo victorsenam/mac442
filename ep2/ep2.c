@@ -10,6 +10,9 @@
 
 int main (int argc, char * argv[]) {
     int i, j;
+    /* settings */
+    debug_mutex_ativado = 0;
+    debug_ciclista_ativado = 0;
 
     /* lendo parâmetros da linha de comando */
     if (argc < 4) {
@@ -23,7 +26,8 @@ int main (int argc, char * argv[]) {
     sscanf(argv[3], " %c", &sorteio_tipo); // v (variado) ou u (uniforme)
 
     if (pista_tamanho <= 2*ciclista_n) {
-        fprintf(stderr, "Erro Fatal: Por favor, escolha uma pista suficientemente grande para a quantidade de ciclistas.\n");
+        // se não houver mais metros de pista do que ciclistas, deadlocks podem ocorrer enquanto os ciclistas tentam atualizar o vetor pista. Basta que todos os ciclistas tranquem o mutex da posição atual antes de trancar o da seguinte, todas as posições estarão trancadas e ninguém conseguirá atualizar o vetor.
+        fprintf(stderr, "Erro Fatal: Escolha uma pista com tamanho em metros maior do que a quantidade de ciclistas, caso contrário, deadlocks são inevitáveis.\n");
         return 2;
     }
 
@@ -34,22 +38,42 @@ int main (int argc, char * argv[]) {
         debug_ativado |= (argv[i][0] == '-' && argv[i][1] == 'd' && !argv[i][2]);
     }
 
+    /* inicializando pista */
+    pista = (pista_obj *) malloc(sizeof(pista_obj) * 2 * pista_tamanho);
+    for (i = 0; i < 2*pista_tamanho; i++) {
+        pista_init(&(pista[i]));
+    }
+
     /* inicializando ciclistas */
+    ciclista_round = 0;
+    debug_ciclista("=== Round: %d ===\n", ciclista_round);
     for (i = 0; i < 2; i++) {
-        ciclista[i] = (ciclista_obj*) malloc(sizeof(ciclista_obj) * ciclista_n);
+        ciclista[i] = (ciclista_obj *) malloc(sizeof(ciclista_obj) * ciclista_n);
 
-        for (j = 0; j < ciclista_n; j++) {
-            ciclista[i][j].id = (!!i)*ciclista_n + j;
-            ciclista[i][j].time = i;
+        for (j = 0; j < ciclista_n; j++)
+            ciclista_init(&(ciclista[i][j]), i, j);
+    }
 
-            ciclista[i][j].ini = 0;
-            ciclista[i][j].round = 0;
-            ciclista[i][j].posicao = 0 + (!!i)*pista_tamanho/2;
-
-            ciclista[i][j].ultima_velocidade = 1;
-            ciclista[i][j].velocidade = 0;
-
-            // TODO Thread
+    /* rodando simulacao */
+    while (42) {
+        i = 0;
+        while (i < 2) {
+            j = 0;
+            while (j < ciclista_n) {
+                while (ciclista[i][j].round <= ciclista_round);
+                j++;
+            }
+            i++;
         }
+        
+        debug_ciclista("=== Round: %d ===\n", ciclista_round+1);
+        ciclista_round++;
+    }
+
+    free(pista);
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < ciclista_n; j++)
+            pthread_join(ciclista[i][j].thread, NULL);
+        free(ciclista[i]);
     }
 }
