@@ -4,6 +4,7 @@
 #include <unistd.h>
 
 #include "ciclista.h"
+#include "volta.h"
 #include "pista.h"
 #include "debug.h"
 

@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "pista.h"
+#include "volta.h"
 #include "debug.h"
 
 struct ciclista_obj_struct ;
@@ -19,8 +20,11 @@ typedef struct ciclista_obj_struct {
     int posicao;        // indica o meio metro da pista onde está a roda traseira do ciclista
     char velocidade;
     char ultrapassavel;
+
+    // status
     int fim;
     int ini;
+    int quebrado;
 
     // threads
     int round;   

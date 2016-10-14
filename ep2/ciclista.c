@@ -9,7 +9,7 @@ void ciclista_init (ciclista_obj * obj, char time, int idx) {
         obj->posicao += pista_tamanho;
 
     obj->velocidade = obj->ultrapassavel = 0;
-    obj->ini = obj->fim = 0;
+    obj->ini = obj->fim = obj->quebrado = 0;
 
     obj->round = idx*4;
 
@@ -18,13 +18,30 @@ void ciclista_init (ciclista_obj * obj, char time, int idx) {
 
 void ciclista_volta (ciclista_obj * obj) {
     int ls;
+    int i;
+    char imprime;
+
+    pthread_mutex_lock(&volta_mutex[obj->volta][(int) obj->time]);
+    if (volta_completos[obj->volta][(int) obj->time] < 3) {
+        volta_primeiros[obj->volta][(int) obj->time][volta_completos[obj->volta][(int) obj->time]].tempo = obj->round/2 + 1;
+        volta_primeiros[obj->volta][(int) obj->time][volta_completos[obj->volta][(int) obj->time]].id = obj->id;
+    }
+    volta_completos[obj->volta][(int) obj->time]++;
+    imprime = (volta_completos[obj->volta][(int) obj->time] == 3);
+    pthread_mutex_unlock(&volta_mutex[obj->volta][(int) obj->time]);
+
+    if (imprime) {
+        pthread_mutex_lock(&volta_imprimindo);
+            printf("== Time %d Volta %d ==\n", obj->time, obj->volta+1);
+        for (i = 0; i < 3; i++)
+            printf("%d completou com %dms\n", volta_primeiros[obj->volta][(int) obj->time][i].id, (volta_primeiros[obj->volta][(int) obj->time][i].tempo)*60);
+        pthread_mutex_unlock(&volta_imprimindo);
+    }
 
     obj->volta++;
     ls = obj->velocidade;
     obj->velocidade = rand()%(ciclista_tipo+1);
     obj->ultrapassavel = (!ls && !obj->velocidade);
-    
-    debug("(%d) %d : volta %d em %d\n", obj->time, obj->id, obj->volta, ciclista_round/2);
 }
 
 void ciclista_avanca (ciclista_obj * obj) {
@@ -61,11 +78,8 @@ void * ciclista_runner (void * ref) {
         init_pos = obj->posicao;
 
         if (obj->round&1) {
-            pista_lock(init_pos, 0, 1);
-            assert(pista[init_pos].atualizados == 0 || pista[init_pos].atualizados == pista[init_pos].quantidade);
             // resetando o estado da pista
             pista[init_pos].atualizados = 0; 
-            pista_unlock(init_pos);
         } else {
             pista_lock(init_pos, 0, 1);
 
@@ -75,6 +89,18 @@ void * ciclista_runner (void * ref) {
             }
 
             if (obj->volta == 16 && !obj->fim) {
+                obj->fim = 1;
+            }
+
+            if (obj->fim) {
+                pista_remove(obj);
+                pista_unlock(init_pos);
+
+                pthread_mutex_lock(&ciclista_fim_mutex);
+                ciclista_fim++;
+                pthread_mutex_unlock(&ciclista_fim_mutex);
+
+                return NULL;
                 obj->fim = 1;
                 pista_remove(obj);
                 pista_unlock(init_pos);
