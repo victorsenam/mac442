@@ -5,12 +5,12 @@
 
 #include "ciclista.h"
 #include "pista.h"
-#include "sorteio.h"
 #include "debug.h"
 
 int main (int argc, char * argv[]) {
     int i, j;
     /* settings */
+    srand(time(NULL)); rand(); rand();
     debug_mutex_ativado = 0;
     debug_ciclista_ativado = 0;
 
@@ -23,7 +23,8 @@ int main (int argc, char * argv[]) {
     // obrigatórios
     sscanf(argv[1], "%d", &pista_tamanho);
     sscanf(argv[2], "%d", &ciclista_n);
-    sscanf(argv[3], " %c", &sorteio_tipo); // v (variado) ou u (uniforme)
+    sscanf(argv[3], " %c", &ciclista_tipo); // v (variado) ou u (uniforme)
+    ciclista_tipo = (ciclista_tipo == 'v');
 
     if (pista_tamanho <= 2*ciclista_n) {
         // se não houver mais metros de pista do que ciclistas, deadlocks podem ocorrer enquanto os ciclistas tentam atualizar o vetor pista. Basta que todos os ciclistas tranquem o mutex da posição atual antes de trancar o da seguinte, todas as posições estarão trancadas e ninguém conseguirá atualizar o vetor.
@@ -55,7 +56,7 @@ int main (int argc, char * argv[]) {
     }
 
     /* rodando simulacao */
-    while (42) {
+    while (ciclista_fim < 2*ciclista_n) {
         i = 0;
         while (i < 2) {
             j = 0;

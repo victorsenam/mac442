@@ -4,6 +4,7 @@
 #include <pthread.h>
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "pista.h"
 #include "debug.h"
 
@@ -28,11 +29,15 @@ typedef struct ciclista_obj_struct {
 
 int ciclista_n;
 int ciclista_round;
+int ciclista_fim;
+pthread_mutex_t ciclista_fim_mutex;
+char ciclista_tipo;
 ciclista_obj * ciclista[2];
 
 void ciclista_init (ciclista_obj * obj, char time, int idx);
 
 void ciclista_avanca (ciclista_obj * obj);
+void ciclista_volta (ciclista_obj * obj);
 void * ciclista_runner (void * ref);
 
 #endif
