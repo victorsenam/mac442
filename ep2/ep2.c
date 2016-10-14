@@ -61,12 +61,12 @@ int main (int argc, char * argv[]) {
         while (i < 2) {
             j = 0;
             while (j < ciclista_n) {
-                while (ciclista[i][j].round <= ciclista_round);
+                while (ciclista[i][j].round <= ciclista_round && !ciclista[i][j].fim);
                 j++;
             }
             i++;
         }
-        
+
         debug_ciclista("=== Round: %d ===\n", ciclista_round+1);
         ciclista_round++;
     }
