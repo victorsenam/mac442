@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include "debug.h"
+#include "pthread.h"
 
 struct volta_ciclista_struct ;
 typedef struct volta_ciclista_struct {
