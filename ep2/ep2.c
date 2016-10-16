@@ -59,6 +59,8 @@ int main (int argc, char * argv[]) {
             ciclista_quebraveis[i][j] = j;
         }
     }
+    volta_final = (volta_ciclista *) malloc(sizeof(volta_ciclista) * ciclista_n * 2);
+    volta_final_n = 0;
 
     /* rodando simulacao */
     volta_atual = 0;
@@ -111,6 +113,15 @@ int main (int argc, char * argv[]) {
         debug_ciclista("=== Round: %d ===\n", ciclista_round+1);
         ciclista_round++;
     }
+
+    printf("Classificação Final:\n");
+    for (i = 0; i < volta_final_n; i++)
+        printf("%d : Time %d Id %d Terminou em %dms\n", i, volta_final[i].time, volta_final[i].id, volta_final[i].tempo*60);
+    printf("Quebrados:\n");
+    for (i = 0; i < 2; i++)
+        for (j = 0; j < ciclista_n; j++)
+            if (ciclista[i][j].quebrado)
+                printf("Time %d Id %d Quebrou na volta %d\n", i, j, ciclista[i][j].volta);
 
     free(pista);
     for (i = 0; i < 2; i++) {

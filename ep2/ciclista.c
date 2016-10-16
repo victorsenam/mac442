@@ -64,6 +64,13 @@ void ciclista_volta (ciclista_obj * obj) {
         volta_primeiros[obj->volta][(int) obj->time][volta_completos[obj->volta][(int) obj->time]].tempo = obj->round/2 + 1;
         volta_primeiros[obj->volta][(int) obj->time][volta_completos[obj->volta][(int) obj->time]].id = obj->id;
     }
+
+    if (obj->volta == 15) {
+        volta_final[volta_final_n].id = obj->id;
+        volta_final[volta_final_n].time = obj->time;
+        volta_final[volta_final_n].tempo = (ciclista_round/2)+1;
+        volta_final_n++;
+    }
     volta_completos[obj->volta][(int) obj->time]++;
     imprime = (volta_completos[obj->volta][(int) obj->time] == 3);
     pthread_mutex_unlock(&volta_mutex[obj->volta][(int) obj->time]);
@@ -131,8 +138,9 @@ void * ciclista_runner (void * ref) {
                 obj->fim = 1;
             } else if (obj->volta == 16 && !obj->fim) {
                 obj->fim = 1;
+
             } else if (obj->quebrado) {
-                printf("%d do time %d quebrou em %dms\n", obj->id, obj->time, (ciclista_round/2)*60);
+                printf("%d do time %d quebrou em %dms\n", obj->id, obj->time, (ciclista_round/2+1)*60);
                 obj->fim = 1;
             }
 
