@@ -13,6 +13,7 @@ int main (int argc, char * argv[]) {
     /* settings */
     srand(time(NULL)); rand(); rand();
     debug_mutex_ativado = 0;
+    debug_sync_ativado = 0;
     debug_ciclista_ativado = 0;
 
     /* lendo parâmetros da linha de comando */
@@ -67,11 +68,22 @@ int main (int argc, char * argv[]) {
     volta_atual_barreira = 0;
     ciclista_acabou = 0;
     while (ciclista_fim < 2*ciclista_n && !ciclista_acabou) {
+        debug_sync("barreira principal round %d\n", ciclista_round);
         i = 0;
         while (i < 2) {
             j = 0;
             while (j < ciclista_n) {
-                while (ciclista[i][j].round <= ciclista_round && !ciclista[i][j].fim);
+                debug_sync("try [%d %d] main\n", i, j);
+                pthread_mutex_lock(&ciclista[i][j].cond_mutex);
+                debug_sync("lock [%d %d] main\n", i, j);
+                debug_sync("[%d %d] espera (round: %d, fim: %d)\n", i, j, ciclista[i][j].round, ciclista[i][j].fim);
+                while (ciclista[i][j].round <= ciclista_round && !ciclista[i][j].fim) {
+                    pthread_cond_wait(&ciclista_cond_principal, &ciclista[i][j].cond_mutex);
+                    debug_sync("sinal\n");
+                }
+                debug_sync("[%d %d] ok\n", i, j);
+                pthread_mutex_unlock(&ciclista[i][j].cond_mutex);
+                debug_sync("unlock [%d %d] main\n", i, j);
                 j++;
             }
             i++;
@@ -111,7 +123,11 @@ int main (int argc, char * argv[]) {
             }
         }
         debug_ciclista("=== Round: %d ===\n", ciclista_round+1);
+
+        pthread_mutex_lock(&ciclista_cond_mutex);
         ciclista_round++;
+        pthread_cond_broadcast(&ciclista_cond_ciclista);
+        pthread_mutex_unlock(&ciclista_cond_mutex);
     }
 
     printf("Classificação Final:\n");

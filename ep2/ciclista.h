@@ -29,6 +29,7 @@ typedef struct ciclista_obj_struct {
     // threads
     int round;   
     pthread_t thread;
+    pthread_mutex_t cond_mutex;
 } ciclista_obj;
 
 int ciclista_n;
@@ -48,5 +49,9 @@ void ciclista_sorteia_quebra ();
 int ciclista_round;
 pthread_mutex_t ciclista_fim_mutex;
 void * ciclista_runner (void * ref);
+
+pthread_cond_t ciclista_cond_principal;
+pthread_cond_t ciclista_cond_ciclista;
+pthread_mutex_t ciclista_cond_mutex;
 
 #endif

@@ -115,9 +115,17 @@ void * ciclista_runner (void * ref) {
     ciclista_obj * obj = (ciclista_obj *) ref;
     int init_pos;
     int trylock;
+    char sigfim = 0;
 
     while (42) {
-        while (ciclista_round < obj->round);
+        pthread_mutex_lock(&ciclista_cond_mutex);
+        debug_sync("espera barreira do ciclista %d %d (%d)\n", (int) obj->time, obj->id, obj->round);
+        while (ciclista_round < obj->round) {
+            pthread_cond_wait(&ciclista_cond_ciclista, &ciclista_cond_mutex);
+            debug_sync("sinal em %d %d\n", (int) obj->time, obj->id);
+        }
+        debug_sync("libera barreira do ciclista %d %d (%d)\n", (int) obj->time, obj->id, obj->round);
+        pthread_mutex_unlock(&ciclista_cond_mutex);
         assert(ciclista_round == obj->round);
 
         init_pos = obj->posicao;
@@ -134,16 +142,23 @@ void * ciclista_runner (void * ref) {
             }
 
             if (ciclista_acabou) {
-                obj->fim = 1;
+                sigfim = 1;
             } else if (obj->volta == 16 && !obj->fim) {
-                obj->fim = 1;
-
+                sigfim = 1;
             } else if (obj->quebrado) {
                 printf("%d do time %d quebrou em %dms\n", obj->id, obj->time, (ciclista_round/2+1)*60);
-                obj->fim = 1;
+                sigfim = 1;
             }
 
-            if (obj->fim) {
+            if (sigfim) {
+                debug_sync("try [%d %d] fim\n", obj->time, obj->id);
+                pthread_mutex_lock(&obj->cond_mutex);
+                debug_sync("lock [%d %d] fim\n", obj->time, obj->id);
+                obj->fim = 1;
+                pthread_cond_signal(&ciclista_cond_principal);
+                pthread_mutex_unlock(&obj->cond_mutex);
+                debug_sync("unlock [%d %d] fim\n", obj->time, obj->id);
+
                 pista_remove(obj);
                 pista_unlock(init_pos);
 
@@ -167,6 +182,12 @@ void * ciclista_runner (void * ref) {
             debug_ciclista("[%d] %d : %d %d\n", obj->time, obj->id, obj->volta, obj->posicao);
         }
 
+        debug_sync("try [%d %d] round\n", obj->time, obj->id);
+        pthread_mutex_lock(&obj->cond_mutex);
+        debug_sync("lock [%d %d] round\n", obj->time, obj->id);
         obj->round++;
+        pthread_cond_signal(&ciclista_cond_principal);
+        pthread_mutex_unlock(&obj->cond_mutex);
+        debug_sync("unlock [%d %d] round\n", obj->time, obj->id);
     }
 }
