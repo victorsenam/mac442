@@ -14,6 +14,9 @@ volta_ciclista volta_primeiros[16][2][3];
 int volta_completos[16][2];
 pthread_mutex_t volta_mutex[16][2];
 pthread_mutex_t volta_imprimindo;
+
 int volta_atual;
+int volta_atual_barreira;
+char volta_atual_atualiza();
 
 #endif

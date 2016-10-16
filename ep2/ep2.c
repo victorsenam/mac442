@@ -57,6 +57,8 @@ int main (int argc, char * argv[]) {
     }
 
     /* rodando simulacao */
+    volta_atual = 0;
+    volta_atual_barreira = 0;
     while (ciclista_fim < 2*ciclista_n) {
         i = 0;
         while (i < 2) {
@@ -66,6 +68,14 @@ int main (int argc, char * argv[]) {
                 j++;
             }
             i++;
+        }
+
+        if (ciclista_round&1) {
+            while (volta_atual_atualiza()) {
+                if (volta_atual%4 == 0) {
+                    ciclista_quebra();
+                }
+            }
         }
 
         debug_ciclista("=== Round: %d ===\n", ciclista_round+1);
