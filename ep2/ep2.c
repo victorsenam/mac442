@@ -13,7 +13,7 @@ int main (int argc, char * argv[]) {
     /* settings */
     srand(time(NULL)); rand(); rand();
     debug_mutex_ativado = 0;
-    debug_ciclista_ativado = 1;
+    debug_ciclista_ativado = 0;
 
     /* lendo parâmetros da linha de comando */
     if (argc < 4) {
@@ -79,6 +79,16 @@ int main (int argc, char * argv[]) {
                 if (volta_atual%4 == 0) {
                     ciclista_sorteia_quebra();
                 }
+            }
+        } else if (debug_ativado) {
+            debug("Pista depois de %dms: \n", (ciclista_round/2+1)*60);
+            debug("Posicao | Ocupantes (Time,Id)\n");
+            for (i = 0; i < pista_tamanho; i++) {
+                debug("%4dm |", i);
+                for (j = 0; j < 4; j++)
+                    if (pista[2*i+j/2].ocupantes[j%2] != NULL)
+                        debug(" (%d,%d)", pista[2*i+j/2].ocupantes[j%2]->time, pista[2*i+j/2].ocupantes[j%2]->id);
+                debug("\n");
             }
         }
         debug_ciclista("=== Round: %d ===\n", ciclista_round+1);

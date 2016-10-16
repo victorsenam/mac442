@@ -7,6 +7,7 @@ void ciclista_sorteia_quebra () {
 
     // 10% de chance de deixar quebrar
     rnd = rand()%10;
+    rnd = 0;
     if (rnd) return;
     
     while (ciclista_quebraveis_n[0] + ciclista_quebraveis_n[1]) {
