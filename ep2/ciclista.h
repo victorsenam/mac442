@@ -33,6 +33,7 @@ typedef struct ciclista_obj_struct {
 
 int ciclista_n;
 char ciclista_tipo;
+char ciclista_acabou;
 void ciclista_init (ciclista_obj * obj, char time, int idx);
 
 ciclista_obj * ciclista[2];

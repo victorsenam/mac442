@@ -76,6 +76,7 @@ void ciclista_volta (ciclista_obj * obj) {
         pthread_mutex_unlock(&volta_imprimindo);
     }
 
+
     obj->volta++;
     ls = obj->velocidade;
     obj->velocidade = rand()%(ciclista_tipo+1);
@@ -126,7 +127,9 @@ void * ciclista_runner (void * ref) {
                 obj->ini = 1;
             }
 
-            if (obj->volta == 16 && !obj->fim) {
+            if (ciclista_acabou) {
+                obj->fim = 1;
+            } else if (obj->volta == 16 && !obj->fim) {
                 obj->fim = 1;
             } else if (obj->quebrado) {
                 printf("%d do time %d quebrou em %dms\n", obj->id, obj->time, (ciclista_round/2)*60);

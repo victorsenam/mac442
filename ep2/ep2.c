@@ -63,7 +63,8 @@ int main (int argc, char * argv[]) {
     /* rodando simulacao */
     volta_atual = 0;
     volta_atual_barreira = 0;
-    while (ciclista_fim < 2*ciclista_n) {
+    ciclista_acabou = 0;
+    while (ciclista_fim < 2*ciclista_n && !ciclista_acabou) {
         i = 0;
         while (i < 2) {
             j = 0;
@@ -75,20 +76,36 @@ int main (int argc, char * argv[]) {
         }
 
         if (ciclista_round&1) {
+            if (volta_completos[15][0] == 3 || volta_completos[15][1] == 3) {
+                ciclista_acabou = 1;
+                printf("Fim da corrida em %dms.\n", (ciclista_round/2+1)*60);
+                if (volta_completos[15][0] == 3 && volta_completos[15][1] == 3) {
+                    printf("Empate! Os terceiros colocados dos dois times empataram.\n");
+                } else if (volta_completos[15][0] == 3) {
+                    printf("Time 0 ganhou! O terceiro colocado do time 0 cruzou a linha de chegada.\n");
+                    printf("%d ciclistas do time 1 cruzaram a linha de chegada.\n", volta_completos[15][1]);
+                } else {
+                    printf("Time 1 ganhou! O terceiro colocado do time 1 cruzou a linha de chegada.\n");
+                    printf("%d ciclistas do time 0 cruzaram a linha de chegada.\n", volta_completos[15][0]);
+                }
+            }
+
             while (volta_atual_atualiza()) {
                 if (volta_atual%4 == 0) {
                     ciclista_sorteia_quebra();
                 }
             }
-        } else if (debug_ativado) {
-            debug("Pista depois de %dms: \n", (ciclista_round/2+1)*60);
-            debug("Posicao | Ocupantes (Time,Id)\n");
-            for (i = 0; i < pista_tamanho; i++) {
-                debug("%4dm |", i);
-                for (j = 0; j < 4; j++)
-                    if (pista[2*i+j/2].ocupantes[j%2] != NULL)
-                        debug(" (%d,%d)", pista[2*i+j/2].ocupantes[j%2]->time, pista[2*i+j/2].ocupantes[j%2]->id);
-                debug("\n");
+        } else {
+            if (debug_ativado) {
+                debug("Pista depois de %dms: \n", (ciclista_round/2+1)*60);
+                debug("Posicao | Ocupantes (Time,Id)\n");
+                for (i = 0; i < pista_tamanho; i++) {
+                    debug("%4dm |", i);
+                    for (j = 0; j < 4; j++)
+                        if (pista[2*i+j/2].ocupantes[j%2] != NULL)
+                            debug(" (%d,%d)", pista[2*i+j/2].ocupantes[j%2]->time, pista[2*i+j/2].ocupantes[j%2]->id);
+                    debug("\n");
+                }
             }
         }
         debug_ciclista("=== Round: %d ===\n", ciclista_round+1);
