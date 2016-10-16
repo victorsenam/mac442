@@ -13,7 +13,7 @@ int main (int argc, char * argv[]) {
     /* settings */
     srand(time(NULL)); rand(); rand();
     debug_mutex_ativado = 0;
-    debug_ciclista_ativado = 0;
+    debug_ciclista_ativado = 1;
 
     /* lendo parâmetros da linha de comando */
     if (argc < 4) {
@@ -51,9 +51,13 @@ int main (int argc, char * argv[]) {
     debug_ciclista("=== Round: %d ===\n", ciclista_round);
     for (i = 0; i < 2; i++) {
         ciclista[i] = (ciclista_obj *) malloc(sizeof(ciclista_obj) * ciclista_n);
+        ciclista_quebraveis[i] = (int *) malloc(sizeof(int) * ciclista_n);
+        ciclista_quebraveis_n[i] = ciclista_n;
 
-        for (j = 0; j < ciclista_n; j++)
+        for (j = 0; j < ciclista_n; j++) {
             ciclista_init(&(ciclista[i][j]), i, j);
+            ciclista_quebraveis[i][j] = j;
+        }
     }
 
     /* rodando simulacao */
@@ -73,17 +77,17 @@ int main (int argc, char * argv[]) {
         if (ciclista_round&1) {
             while (volta_atual_atualiza()) {
                 if (volta_atual%4 == 0) {
-                    ciclista_quebra();
+                    ciclista_sorteia_quebra();
                 }
             }
         }
-
         debug_ciclista("=== Round: %d ===\n", ciclista_round+1);
         ciclista_round++;
     }
 
     free(pista);
     for (i = 0; i < 2; i++) {
+        free(ciclista_quebraveis[i]);
         for (j = 0; j < ciclista_n; j++)
             pthread_join(ciclista[i][j].thread, NULL);
         free(ciclista[i]);
