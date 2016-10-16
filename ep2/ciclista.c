@@ -101,15 +101,6 @@ void * ciclista_runner (void * ref) {
                 pthread_mutex_unlock(&ciclista_fim_mutex);
 
                 return NULL;
-                obj->fim = 1;
-                pista_remove(obj);
-                pista_unlock(init_pos);
-
-                pthread_mutex_lock(&ciclista_fim_mutex);
-                ciclista_fim++;
-                pthread_mutex_unlock(&ciclista_fim_mutex);
-
-                return NULL;
             }
 
             ciclista_avanca(obj);
