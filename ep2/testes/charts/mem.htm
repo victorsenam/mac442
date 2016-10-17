@@ -12,14 +12,14 @@ ${demo.css}
 		<script type="text/javascript">
 $(function () { 
 
-    var uni = 's';
+    var uni = 'kb';
         
     var options = {
         chart: {
             zoomType: 'xy'
         },
         title: {
-            text: 'Tempo de Execução (em segundos)'
+            text: 'Uso de Memória (em kbytes)'
         },
         xAxis: [{
             categories: ['250 metros', '500 metros', '1000 metros']
@@ -32,7 +32,7 @@ $(function () {
                 }
             },
             title: {
-                text: 'Tempo de Execução (em segundos)',
+                text: 'Uso de memória (em kbytes)',
                 style: {
                     color: Highcharts.getOptions().colors[1]
                 }
@@ -92,15 +92,15 @@ $(function () {
         ]
     };
 
-    var ty = 1;
+    var ty = 2;
     for (var i = 0; i < 3; i++) {
         options.series[2*i].data = [];
         options.series[2*i+1].data = [];
         for (var j = 0; j < 3; j++) {
-            var mean = data[3*i+j][1][0];
-            var int_siz = data[3*i+j][1][1];
+            var mean = data[3*i+j][ty][0];
+            var int_siz = data[3*i+j][ty][1];
             options.series[2*i].data[j] = mean;
-            options.series[2*i+1].data[j] = [mean - int_siz, mean + int_siz];
+            options.series[2*i+1].data[j] = [Math.max(mean - int_siz, 0), mean + int_siz];
         }
     }
 
