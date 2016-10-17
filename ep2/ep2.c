@@ -59,7 +59,7 @@ int main (int argc, char * argv[]) {
     debug_ciclista("=== Round: %d ===\n", ciclista_round);
     for (i = 0; i < 2; i++) {
         ciclista[i] = (ciclista_obj *) calloc(ciclista_n, sizeof(ciclista_obj));
-        ciclista_quebraveis[i] = (int *) calloc(ciclista_n*2, sizeof(int));
+        ciclista_quebraveis[i] = (int *) calloc(ciclista_n, sizeof(int));
         ciclista_quebraveis_n[i] = ciclista_n;
 
         for (j = 0; j < ciclista_n; j++) {

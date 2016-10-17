@@ -15,9 +15,9 @@ typedef struct volta_ciclista_struct {
     int time;
 } volta_ciclista;
 
-volta_ciclista volta_primeiros[16][2][3];
-int volta_completos[16][2];
-pthread_mutex_t volta_mutex[16][2];
+volta_ciclista volta_primeiros[17][2][3];
+int volta_completos[17][2];
+pthread_mutex_t volta_mutex[17][2];
 pthread_mutex_t volta_imprimindo;
 
 volta_ciclista * volta_final;
