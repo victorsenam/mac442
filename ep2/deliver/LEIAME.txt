@@ -11,3 +11,6 @@ Para rodar, basta usar o comando './ep2 d n [v|u] [-d]' (sem aspas) onde
 - v significa que as velocidades variam a cada volta
 - u significa que as velocidades não variam a cada volta
 - a flag -d indica que devem ser impressas as mensagens de debug
+
+# Apresentação
+A apresentação está no arquivo apresentacao.pdf

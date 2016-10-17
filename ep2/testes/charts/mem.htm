@@ -12,14 +12,14 @@ ${demo.css}
 		<script type="text/javascript">
 $(function () { 
 
-    var uni = 'kb';
+    var uni = 'Mb';
         
     var options = {
         chart: {
             zoomType: 'xy'
         },
         title: {
-            text: 'Uso de Memória (em kbytes)'
+            text: 'Uso de Memória (em megabytes)'
         },
         xAxis: [{
             categories: ['250 metros', '500 metros', '1000 metros']
@@ -32,7 +32,7 @@ $(function () {
                 }
             },
             title: {
-                text: 'Uso de memória (em kbytes)',
+                text: 'Uso de memória (em megabytes)',
                 style: {
                     color: Highcharts.getOptions().colors[1]
                 }
@@ -97,8 +97,8 @@ $(function () {
         options.series[2*i].data = [];
         options.series[2*i+1].data = [];
         for (var j = 0; j < 3; j++) {
-            var mean = data[3*i+j][ty][0];
-            var int_siz = data[3*i+j][ty][1];
+            var mean = data[3*i+j][ty][0]/1000;
+            var int_siz = data[3*i+j][ty][1]/1000;
             options.series[2*i].data[j] = mean;
             options.series[2*i+1].data[j] = [Math.max(mean - int_siz, 0), mean + int_siz];
         }
