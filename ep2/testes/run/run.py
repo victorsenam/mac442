@@ -78,7 +78,7 @@ for cic_qtd, cic_nome in ciclistas:
         time_int = 1.96 * math.sqrt(time_int/n)
         mem_int = 1.96 * math.sqrt(mem_int/n)
 
-        print ok + "[\"" + cic_nome + "\", \"" + pis_nome + "\"], [" + str(time_mean) + ", " + str(time_int) + "], [" + str(mem_mean) + ", " + str(mem_int) + "] ]"
+        print ok + "[ [\"" + cic_nome + "\", \"" + pis_nome + "\"], [" + str(time_mean) + ", " + str(time_int) + "], [" + str(mem_mean) + ", " + str(mem_int) + "] ]"
         ok = ","
         sys.stdout.flush()
 
