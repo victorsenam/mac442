@@ -2,7 +2,9 @@
 import subprocess
 import sys
 import math
+import time
 
+jump = int(input())
 n = 30
 
 pista = [
@@ -18,9 +20,16 @@ ciclistas = [
 
 ok = ""
 
+f = open('logs/run_' + str(time.time()) + '.log', 'w');
+
 print "["
 for cic_qtd, cic_nome in ciclistas:
     for pis_tam, pis_nome in pista:
+
+        if (jump):
+            jump -= 1
+            continue
+
         times = []
         mems = []
 
@@ -33,7 +42,7 @@ for cic_qtd, cic_nome in ciclistas:
             curr_time = 0
             curr_mem = 0
 
-            with open(str(pis_tam) + '_' + str(cic_qtd) + '.log', 'w') as log:
+            with open('logs/' + str(pis_nome) + '_' + str(cic_nome) + '_' + str(rep) + '.log', 'w') as log:
                 proc = subprocess.Popen("/usr/bin/time -v ../../ep2 " + str(pis_tam) + " " + str(cic_qtd) + " v", shell=True, stderr=subprocess.PIPE, stdout=log)
 
             i = 0
@@ -55,6 +64,9 @@ for cic_qtd, cic_nome in ciclistas:
             mems.append(curr_mem)
             mem_mean += curr_mem
 
+            f.write(pis_nome + " " + cic_nome + " " + str(rep) + ": " + str(curr_time) + "ms " + str(curr_mem) + "kb\n")
+            f.flush()
+
         time_mean /= n
         mem_mean /= n
 
@@ -71,3 +83,4 @@ for cic_qtd, cic_nome in ciclistas:
 
 print "]"
 sys.stdout.flush()
+f.close()
