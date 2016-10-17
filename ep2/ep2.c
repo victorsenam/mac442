@@ -1,3 +1,5 @@
+/* Nathan Benedetto Proença 8941276  **
+** Victor Sena Molero 8941317        */
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -48,11 +50,16 @@ int main (int argc, char * argv[]) {
     }
 
     /* inicializando ciclistas */
+    pthread_cond_init(&ciclista_cond_principal, NULL);
+    pthread_cond_init(&ciclista_cond_ciclista, NULL);
+    pthread_mutex_init(&ciclista_cond_mutex, NULL);
+    pthread_mutex_init(&ciclista_fim_mutex, NULL);
+
     ciclista_round = 0;
     debug_ciclista("=== Round: %d ===\n", ciclista_round);
     for (i = 0; i < 2; i++) {
-        ciclista[i] = (ciclista_obj *) malloc(sizeof(ciclista_obj) * ciclista_n);
-        ciclista_quebraveis[i] = (int *) malloc(sizeof(int) * ciclista_n);
+        ciclista[i] = (ciclista_obj *) calloc(ciclista_n, sizeof(ciclista_obj));
+        ciclista_quebraveis[i] = (int *) calloc(ciclista_n*2, sizeof(int));
         ciclista_quebraveis_n[i] = ciclista_n;
 
         for (j = 0; j < ciclista_n; j++) {
@@ -139,9 +146,12 @@ int main (int argc, char * argv[]) {
             if (ciclista[i][j].quebrado)
                 printf("Time %d Id %d Quebrou na volta %d\n", i, j, ciclista[i][j].volta);
 
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < ciclista_n; j++)
+    for (i = 0; i < 2; i++)
+        for (j = 0; j < ciclista_n; j++) {
             pthread_join(ciclista[i][j].thread, NULL);
+        }
+
+    for (i = 0; i < 2; i++) {
         free(ciclista_quebraveis[i]);
         free(ciclista[i]);
     }

@@ -45,18 +45,19 @@ for cic_qtd, cic_nome in ciclistas:
             with open('logs/' + str(pis_nome) + '_' + str(cic_nome) + '_' + str(rep) + '.log', 'w') as log:
                 proc = subprocess.Popen("/usr/bin/time -v ../../ep2 " + str(pis_tam) + " " + str(cic_qtd) + " v", shell=True, stderr=subprocess.PIPE, stdout=log)
 
-            i = 0
-            for line in proc.stderr.readlines():
-                i+=1
+                i = 0
+                for line in proc.stderr.readlines():
+                    i+=1
 
-                line = line.rstrip()
-                if (i == 5):
-                    line = line[46:].split(":")
+                    log.write(line)
+                    line = line.rstrip()
+                    if (i == 5):
+                        line = line[46:].split(":")
 
-                    curr_time = float(line[0]) * 60. + float(line[1])
+                        curr_time = float(line[0]) * 60. + float(line[1])
 
-                if (i == 10):
-                    curr_mem = float(line[37:])
+                    if (i == 10):
+                        curr_mem = float(line[37:])
 
             times.append(curr_time)
             time_mean += curr_time

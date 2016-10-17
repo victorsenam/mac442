@@ -1,3 +1,5 @@
+/* Nathan Benedetto Proença 8941276  **
+** Victor Sena Molero 8941317        */
 #include "ciclista.h"
 
 void ciclista_sorteia_quebra () {
@@ -25,10 +27,11 @@ void ciclista_sorteia_quebra () {
 
         // escolhendo ciclista
         rnd = rand()%(ciclista_quebraveis_n[time]);
+        ciclista_quebraveis_n[time]--;
+
         esc = ciclista_quebraveis[time][rnd];
         ciclista_quebraveis[time][rnd] = ciclista_quebraveis[time][ciclista_quebraveis_n[time]];
         ciclista_quebraveis[time][ciclista_quebraveis_n[time]] = esc;
-        ciclista_quebraveis_n[time]--;
 
         if (ciclista[time][esc].fim || ciclista[time][esc].quebrado) continue;
 
@@ -49,6 +52,8 @@ void ciclista_init (ciclista_obj * obj, char time, int idx) {
     obj->ini = obj->fim = obj->quebrado = 0;
 
     obj->round = idx*4;
+
+    pthread_mutex_init(&(obj->cond_mutex), NULL);
 
     pthread_create(&(obj->thread), NULL, ciclista_runner, obj);
 }

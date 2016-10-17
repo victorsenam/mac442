@@ -1,3 +1,5 @@
+/* Nathan Benedetto Proença 8941276  **
+** Victor Sena Molero 8941317        */
 #include "pista.h"
 
 void pista_init (pista_obj * obj) {
@@ -6,6 +8,8 @@ void pista_init (pista_obj * obj) {
         obj->ocupantes[i] = NULL;
 
     obj->quantidade = obj->atualizados = 0;
+    pthread_cond_init(&(obj->cond), NULL);
+    pthread_mutex_init(&(obj->mutex), NULL);
 }
 
 int pista_lock (int posicao, char estavel, char block) {
