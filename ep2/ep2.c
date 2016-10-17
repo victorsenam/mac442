@@ -139,11 +139,11 @@ int main (int argc, char * argv[]) {
             if (ciclista[i][j].quebrado)
                 printf("Time %d Id %d Quebrou na volta %d\n", i, j, ciclista[i][j].volta);
 
-    free(pista);
     for (i = 0; i < 2; i++) {
-        free(ciclista_quebraveis[i]);
         for (j = 0; j < ciclista_n; j++)
             pthread_join(ciclista[i][j].thread, NULL);
+        free(ciclista_quebraveis[i]);
         free(ciclista[i]);
     }
+    free(pista);
 }
