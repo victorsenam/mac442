@@ -1,3 +1,5 @@
+# Nathan Benedetto Proença 8941276
+# Victor Sena Molero 8941317
 GCC_FLAGS=-g -Wall -pedantic -std=c99 -D _POSIX_C_SOURCE=199309L
 FILES=ep2
 
