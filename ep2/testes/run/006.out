@@ -1,0 +1,5 @@
+[
+Traceback (most recent call last):
+  File "./run.py", line 56, in <module>
+    curr_time = float(line[0]) * 60. + float(line[1])
+ValueError: could not convert string to float: 
