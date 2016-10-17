@@ -10,18 +10,22 @@ void pista_init (pista_obj * obj) {
 
 int pista_lock (int posicao, char estavel, char block) {
     int res;
-    int cnt = 0;
     if (estavel) {
         debug_mutex("<%04d> : wait\n", posicao);
-        while (pista[posicao].atualizados < pista[posicao].quantidade);
+        pthread_mutex_lock(&(pista[posicao].mutex));
+        while (pista[posicao].atualizados < pista[posicao].quantidade)
+            pthread_cond_wait(&(pista[posicao].cond), &(pista[posicao].mutex));
+        pthread_mutex_unlock(&(pista[posicao].mutex));
     }
 
-    do {
-        if (cnt == 0) debug_mutex("<%04d> : try\n", posicao);
-        cnt++;
-        cnt %= (int) (2e9);
+    if (block) {
+        res = 1;
+        debug_mutex("<%04d> : force\n", posicao);
+        pthread_mutex_lock(&(pista[posicao].mutex));
+    } else {
+        debug_mutex("<%04d> : try\n", posicao);
         res = pthread_mutex_trylock(&(pista[posicao].mutex));
-    } while (res && block);
+    }
 
     if (res) {
         debug_mutex("<%04d> : lock\n", posicao);
@@ -33,6 +37,7 @@ int pista_lock (int posicao, char estavel, char block) {
 }
 
 void pista_unlock (int posicao) {
+    pthread_cond_signal(&(pista[posicao].cond));
     pthread_mutex_unlock(&(pista[posicao].mutex));
     debug_mutex("<%04d> : free\n", posicao);
 }

@@ -16,6 +16,7 @@ typedef struct pista_obj_struct {
 
     // mutex
     pthread_mutex_t mutex;
+    pthread_cond_t cond;
 } pista_obj;
 
 int pista_tamanho;
