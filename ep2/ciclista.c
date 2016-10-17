@@ -50,6 +50,8 @@ void ciclista_init (ciclista_obj * obj, char time, int idx) {
 
     obj->round = idx*4;
 
+    pthread_mutex_init(&(obj->cond_mutex), NULL);
+
     pthread_create(&(obj->thread), NULL, ciclista_runner, obj);
 }
 
