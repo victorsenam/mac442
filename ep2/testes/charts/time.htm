@@ -16,10 +16,10 @@ $(function () {
             zoomType: 'xy'
         },
         title: {
-            text: 'Tempo de Execução'
+            text: 'Tempo de Execução (em segundos)'
         },
         xAxis: [{
-            categories: ['FCFS', 'SRTN', 'Multiplas Filas']
+            categories: ['250 metros', '500 metros', '1000 metros']
         }],
         yAxis: [{ // Primary yAxis
             labels: {
@@ -29,7 +29,7 @@ $(function () {
                 }
             },
             title: {
-                text: 'Falhas em Cumprimento das Deadlines',
+                text: 'Tempo de Execução',
                 style: {
                     color: Highcharts.getOptions().colors[1]
                 }
@@ -42,14 +42,14 @@ $(function () {
 
         series: [
             {
-                name: '2 CPUs',
+                name: '5 ciclistas',
                 type: 'column',
                 yAxis: 0,
                 tooltip: {
                     pointFormat: '<span style="font-weight: bold; color: {series.color}">{series.name}</span>: <b>{point.y:.1f} mm</b> '
                 }
             }, {
-                name: 'Erro em 2 CPUs',
+                name: 'Erro em 5 ciclistas',
                 type: 'errorbar',
                 yAxis: 0,
                 tooltip: {
@@ -57,34 +57,59 @@ $(function () {
                 }
             },
             {
-                name: '8 CPUs',
+                name: '20 ciclistas',
                 type: 'column',
                 yAxis: 0,
                     tooltip: {
                         pointFormat: '<span style="font-weight: bold; color: {series.color}">{series.name}</span>: <b>{point.y:.1f} mm</b> '
                     }
                 }, {
-                    name: 'Erro em 8 CPUs',
+                    name: 'Erro em 20 ciclistas',
                     type: 'errorbar',
                     yAxis: 0,
                     tooltip: {
                         pointFormat: '(error range: {point.low}-{point.high} mm)<br/>'
                     }
+            },
+            {
+                name: '50 ciclistas',
+                type: 'column',
+                yAxis: 0,
+                tooltip: {
+                    pointFormat: '<span style="font-weight: bold; color: {series.color}">{series.name}</span>: <b>{point.y:.1f} mm</b> '
+                }
+            }, {
+                name: 'Erro em 50 ciclistas',
+                type: 'errorbar',
+                yAxis: 0,
+                tooltip: {
+                    pointFormat: '(error range: {point.low}-{point.high} mm)<br/>'
+                }
             }
         ]
     };
 
     var data = [
-        [ [46.000000,19.797617], [83.600000,6.577350], [411.000000,12.533788] ],
-        [ [39.200000,20.657817], [66.200000,3.412877], [69.200000,9.152452] ]
+[["pequena", "pequena"], [1.94966666667, 0.931917424], [1720.26666667, 438.890330044] ]
+,[["pequena", "media"], [3.26433333333, 1.44289091917], [1851.06666667, 1185.52739728] ]
+,[["pequena", "grande"], [5.531, 2.00151958898], [1770.53333333, 56.624969506] ]
+,[["normal", "pequena"], [176.821666667, 55.1364311221], [2169.33333333, 1865.25922941] ]
+,[["pequena", "media"], [3.26433333333, 1.44289091917], [1851.06666667, 1185.52739728] ]
+,[["pequena", "grande"], [5.531, 2.00151958898], [1770.53333333, 56.624969506] ]
+,[["normal", "pequena"], [176.821666667, 55.1364311221], [2169.33333333, 1865.25922941] ]
+,[["pequena", "media"], [3.26433333333, 1.44289091917], [1851.06666667, 1185.52739728] ]
+,[["pequena", "grande"], [5.531, 2.00151958898], [1770.53333333, 56.624969506] ]
     ];
 
-    for (var i = 0; i < 2; i++) {
+    var ty = 1;
+    for (var i = 0; i < 3; i++) {
         options.series[2*i].data = [];
         options.series[2*i+1].data = [];
         for (var j = 0; j < 3; j++) {
-            options.series[2*i].data[j] = data[i][j][0];
-            options.series[2*i+1].data[j] = [data[i][j][0] - data[i][j][1], data[i][j][0] + data[i][j][1]];
+            var mean = data[3*i+j][1][0];
+            var int_siz = data[3*i+j][1][1];
+            options.series[2*i].data[j] = mean;
+            options.series[2*i+1].data[j] = [mean - int_siz, mean + int_siz];
         }
     }
 
