@@ -25,10 +25,11 @@ void ciclista_sorteia_quebra () {
 
         // escolhendo ciclista
         rnd = rand()%(ciclista_quebraveis_n[time]);
+        ciclista_quebraveis_n[time]--;
+
         esc = ciclista_quebraveis[time][rnd];
         ciclista_quebraveis[time][rnd] = ciclista_quebraveis[time][ciclista_quebraveis_n[time]];
         ciclista_quebraveis[time][ciclista_quebraveis_n[time]] = esc;
-        ciclista_quebraveis_n[time]--;
 
         if (ciclista[time][esc].fim || ciclista[time][esc].quebrado) continue;
 
