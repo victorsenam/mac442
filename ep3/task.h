@@ -4,9 +4,8 @@
 struct task_struct ;
 typedef struct task_struct {
     // basic info
-    int id;
-    int posi;
-    int temp;
+    unsigned int mem;
+    unsigned int time;
 } task;
 
 #endif

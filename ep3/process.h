@@ -8,13 +8,15 @@
 struct process_struct ;
 typedef struct process_struct {
     // basic info
-    int id;
-    int time_init;
-    int time_end;
+    unsigned int time_init;
+    unsigned int time_end;
+    unsigned int memory;
     std::string name;
 
     // tasks
-    std::vector<task> task;
+    std::vector<task> tasks;
 } process;
+
+std::vector<process> process_v;
 
 #endif
