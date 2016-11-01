@@ -1,0 +1,7 @@
+[
+["pequena", "pequena"], [1.011, 0.0664379289262], [1697.2, 33.455770444] ]
+,["pequena", "media"], [2.014, 0.149320616125], [1749.6, 32.3631553468] ]
+Traceback (most recent call last):
+  File "./run.py", line 57, in <module>
+    curr_time = float(line[0]) * 60. + float(line[1])
+ValueError: could not convert string to float: 

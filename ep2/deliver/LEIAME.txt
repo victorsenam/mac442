@@ -1,0 +1,16 @@
+/* Nathan Benedetto Proença 8941276  **
+** Victor Sena Molero 8941317        */
+
+# Compilar
+Para compilar, basta usar o comando 'make ep2' (sem aspas)
+
+# Rodar
+Para rodar, basta usar o comando './ep2 d n [v|u] [-d]' (sem aspas) onde 
+- d é o tamanho da pista, em metros
+- n é a quantidade de ciclistas de cada time
+- v significa que as velocidades variam a cada volta
+- u significa que as velocidades não variam a cada volta
+- a flag -d indica que devem ser impressas as mensagens de debug
+
+# Apresentação
+A apresentação está no arquivo apresentacao.pdf

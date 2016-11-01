@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Highcharts Example</title>
+
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<style type="text/css">
+${demo.css}
+		</style>
+    <script type="text/javascript" src="result.js"></script> 
+		<script type="text/javascript">
+$(function () { 
+
+    var uni = 's';
+        
+    var options = {
+        chart: {
+            zoomType: 'xy'
+        },
+        title: {
+            text: 'Tempo de Execução (em segundos)'
+        },
+        xAxis: [{
+            categories: ['250 metros', '500 metros', '1000 metros']
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {
+                format: '',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
+            },
+            title: {
+                text: 'Tempo de Execução (em segundos)',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
+            }
+        }],
+
+        tooltip: {
+            shared: true
+        },
+
+        series: [
+            {
+                name: '5 ciclistas',
+                type: 'column',
+                yAxis: 0,
+                tooltip: {
+                    pointFormat: '<span style="font-weight: bold; color: {series.color}">{series.name}</span>: <b>{point.y:.1f} ' + uni + '</b> '
+                }
+            }, {
+                name: 'Erro em 5 ciclistas',
+                type: 'errorbar',
+                yAxis: 0,
+                tooltip: {
+                    pointFormat: '(intervalo de confiança: {point.low}-{point.high} ' + uni + ')<br/>'
+                }
+            },
+            {
+                name: '20 ciclistas',
+                type: 'column',
+                yAxis: 0,
+                tooltip: {
+                  pointFormat: '<span style="font-weight: bold; color: {series.color}">{series.name}</span>: <b>{point.y:.1f} ' + uni + '</b> '
+                }
+            }, {
+                name: 'Erro em 20 ciclistas',
+                type: 'errorbar',
+                yAxis: 0,
+                tooltip: {
+                    pointFormat: '(intervalo de confiança: {point.low}-{point.high} ' + uni + ')<br/>'
+                }
+            },
+            {
+                name: '50 ciclistas',
+                type: 'column',
+                yAxis: 0,
+                tooltip: {
+                    pointFormat: '<span style="font-weight: bold; color: {series.color}">{series.name}</span>: <b>{point.y:.1f} ' + uni + '</b> '
+                }
+            }, {
+                name: 'Erro em 50 ciclistas',
+                type: 'errorbar',
+                yAxis: 0,
+                tooltip: {
+                    pointFormat: '(intervalo de confiança: {point.low}-{point.high} ' + uni + ')<br/>'
+                }
+            }
+        ]
+    };
+
+    var ty = 1;
+    for (var i = 0; i < 3; i++) {
+        options.series[2*i].data = [];
+        options.series[2*i+1].data = [];
+        for (var j = 0; j < 3; j++) {
+            var mean = data[3*i+j][1][0];
+            var int_siz = data[3*i+j][1][1];
+            options.series[2*i].data[j] = mean;
+            options.series[2*i+1].data[j] = [mean - int_siz, mean + int_siz];
+        }
+    }
+
+    $('#container').highcharts(options); 
+});
+		</script>
+	</head>
+	<body>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<div id="container" style="height: 600px; margin: auto; min-width: 310px; max-width: 1000px"></div>
+	</body>
+</html>

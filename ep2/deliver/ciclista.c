@@ -1,4 +1,44 @@
+/* Nathan Benedetto Proença 8941276  **
+** Victor Sena Molero 8941317        */
 #include "ciclista.h"
+
+void ciclista_sorteia_quebra () {
+    int rnd;
+    int time;
+    int esc;
+
+    // 10% de chance de deixar quebrar
+    rnd = rand()%10;
+    if (rnd) return;
+    
+    while (ciclista_quebraveis_n[0] + ciclista_quebraveis_n[1]) {
+        // escolhendo time
+        rnd = rand()%(ciclista_quebraveis_n[0] + ciclista_quebraveis_n[1]);
+        if (rnd < ciclista_quebraveis_n[0])
+            time = 0;
+        else
+            time = 1;
+
+        // verificando
+        if (ciclista_quebraveis_n[time] <= 3) {
+            ciclista_quebraveis_n[time] = 0;
+            continue;
+        }
+
+        // escolhendo ciclista
+        rnd = rand()%(ciclista_quebraveis_n[time]);
+        ciclista_quebraveis_n[time]--;
+
+        esc = ciclista_quebraveis[time][rnd];
+        ciclista_quebraveis[time][rnd] = ciclista_quebraveis[time][ciclista_quebraveis_n[time]];
+        ciclista_quebraveis[time][ciclista_quebraveis_n[time]] = esc;
+
+        if (ciclista[time][esc].fim || ciclista[time][esc].quebrado) continue;
+
+        ciclista[time][esc].quebrado = 1;
+        break;
+    }
+}
 
 void ciclista_init (ciclista_obj * obj, char time, int idx) {
     obj->id = idx;
@@ -13,6 +53,8 @@ void ciclista_init (ciclista_obj * obj, char time, int idx) {
 
     obj->round = idx*4;
 
+    pthread_mutex_init(&(obj->cond_mutex), NULL);
+
     pthread_create(&(obj->thread), NULL, ciclista_runner, obj);
 }
 
@@ -26,6 +68,13 @@ void ciclista_volta (ciclista_obj * obj) {
         volta_primeiros[obj->volta][(int) obj->time][volta_completos[obj->volta][(int) obj->time]].tempo = obj->round/2 + 1;
         volta_primeiros[obj->volta][(int) obj->time][volta_completos[obj->volta][(int) obj->time]].id = obj->id;
     }
+
+    if (obj->volta == 15) {
+        volta_final[volta_final_n].id = obj->id;
+        volta_final[volta_final_n].time = obj->time;
+        volta_final[volta_final_n].tempo = (ciclista_round/2)+1;
+        volta_final_n++;
+    }
     volta_completos[obj->volta][(int) obj->time]++;
     imprime = (volta_completos[obj->volta][(int) obj->time] == 3);
     pthread_mutex_unlock(&volta_mutex[obj->volta][(int) obj->time]);
@@ -37,6 +86,7 @@ void ciclista_volta (ciclista_obj * obj) {
             printf("%d completou com %dms\n", volta_primeiros[obj->volta][(int) obj->time][i].id, (volta_primeiros[obj->volta][(int) obj->time][i].tempo)*60);
         pthread_mutex_unlock(&volta_imprimindo);
     }
+
 
     obj->volta++;
     ls = obj->velocidade;
@@ -70,9 +120,17 @@ void * ciclista_runner (void * ref) {
     ciclista_obj * obj = (ciclista_obj *) ref;
     int init_pos;
     int trylock;
+    char sigfim = 0;
 
     while (42) {
-        while (ciclista_round < obj->round);
+        pthread_mutex_lock(&ciclista_cond_mutex);
+        debug_sync("espera barreira do ciclista %d %d (%d)\n", (int) obj->time, obj->id, obj->round);
+        while (ciclista_round < obj->round) {
+            pthread_cond_wait(&ciclista_cond_ciclista, &ciclista_cond_mutex);
+            debug_sync("sinal em %d %d\n", (int) obj->time, obj->id);
+        }
+        debug_sync("libera barreira do ciclista %d %d (%d)\n", (int) obj->time, obj->id, obj->round);
+        pthread_mutex_unlock(&ciclista_cond_mutex);
         assert(ciclista_round == obj->round);
 
         init_pos = obj->posicao;
@@ -88,11 +146,24 @@ void * ciclista_runner (void * ref) {
                 obj->ini = 1;
             }
 
-            if (obj->volta == 16 && !obj->fim) {
-                obj->fim = 1;
+            if (ciclista_acabou) {
+                sigfim = 1;
+            } else if (obj->volta == 16 && !obj->fim) {
+                sigfim = 1;
+            } else if (obj->quebrado) {
+                printf("%d do time %d quebrou em %dms\n", obj->id, obj->time, (ciclista_round/2+1)*60);
+                sigfim = 1;
             }
 
-            if (obj->fim) {
+            if (sigfim) {
+                debug_sync("try [%d %d] fim\n", obj->time, obj->id);
+                pthread_mutex_lock(&obj->cond_mutex);
+                debug_sync("lock [%d %d] fim\n", obj->time, obj->id);
+                obj->fim = 1;
+                pthread_cond_signal(&ciclista_cond_principal);
+                pthread_mutex_unlock(&obj->cond_mutex);
+                debug_sync("unlock [%d %d] fim\n", obj->time, obj->id);
+
                 pista_remove(obj);
                 pista_unlock(init_pos);
 
@@ -106,16 +177,22 @@ void * ciclista_runner (void * ref) {
             ciclista_avanca(obj);
             if (obj->velocidade)
                 ciclista_avanca(obj);
-            
+
             trylock = pista_lock(obj->posicao, 0, 0);
             pista[obj->posicao].atualizados++;
             if (!trylock)
                 pista_unlock(obj->posicao);
 
             pista_unlock(init_pos);
-            debug_ciclista("(%d) %d : %d %d\n", obj->time, obj->id, obj->volta, obj->posicao);
+            debug_ciclista("[%d] %d : %d %d\n", obj->time, obj->id, obj->volta, obj->posicao);
         }
 
+        debug_sync("try [%d %d] round\n", obj->time, obj->id);
+        pthread_mutex_lock(&obj->cond_mutex);
+        debug_sync("lock [%d %d] round\n", obj->time, obj->id);
         obj->round++;
+        pthread_cond_signal(&ciclista_cond_principal);
+        pthread_mutex_unlock(&obj->cond_mutex);
+        debug_sync("unlock [%d %d] round\n", obj->time, obj->id);
     }
 }

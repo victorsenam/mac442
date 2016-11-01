@@ -1,3 +1,5 @@
+/* Nathan Benedetto Proença 8941276  **
+** Victor Sena Molero 8941317        */
 #ifndef PISTA_MAC442
 #define PISTA_MAC442
 
@@ -16,6 +18,7 @@ typedef struct pista_obj_struct {
 
     // mutex
     pthread_mutex_t mutex;
+    pthread_cond_t cond;
 } pista_obj;
 
 int pista_tamanho;

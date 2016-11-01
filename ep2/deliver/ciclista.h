@@ -1,3 +1,5 @@
+/* Nathan Benedetto Proença 8941276  **
+** Victor Sena Molero 8941317        */
 #ifndef CICLISTA_MAC442
 #define CICLISTA_MAC442
 
@@ -29,19 +31,29 @@ typedef struct ciclista_obj_struct {
     // threads
     int round;   
     pthread_t thread;
+    pthread_mutex_t cond_mutex;
 } ciclista_obj;
 
 int ciclista_n;
-int ciclista_round;
-int ciclista_fim;
-pthread_mutex_t ciclista_fim_mutex;
 char ciclista_tipo;
-ciclista_obj * ciclista[2];
-
+char ciclista_acabou;
 void ciclista_init (ciclista_obj * obj, char time, int idx);
 
+ciclista_obj * ciclista[2];
+int ciclista_fim;
 void ciclista_avanca (ciclista_obj * obj);
 void ciclista_volta (ciclista_obj * obj);
+
+int * ciclista_quebraveis[2];
+int ciclista_quebraveis_n[2];
+void ciclista_sorteia_quebra ();
+
+int ciclista_round;
+pthread_mutex_t ciclista_fim_mutex;
 void * ciclista_runner (void * ref);
+
+pthread_cond_t ciclista_cond_principal;
+pthread_cond_t ciclista_cond_ciclista;
+pthread_mutex_t ciclista_cond_mutex;
 
 #endif
