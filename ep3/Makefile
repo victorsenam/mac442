@@ -6,8 +6,5 @@ FILES=main
 clear:
 	rm ${FILES}
 
-main: main.cpp
-	g++ main.cpp -pthread ${GCC_FLAGS} -o main
-
-
-
+ep3: ep3.cpp trace.cpp
+	g++ ep3.cpp -pthread ${GCC_FLAGS} -o ep3
