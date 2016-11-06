@@ -1,11 +1,15 @@
 #ifndef EP3_TASK
 #define EP3_TASK
 
-struct task_struct ;
-typedef struct task_struct {
+class task {
+public:
     // basic info
+    unsigned int id;
     unsigned int mem;
     unsigned int time;
-} task;
+    int owner_process;
+};
+
+unsigned int task_qt;
 
 #endif
