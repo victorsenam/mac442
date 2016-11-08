@@ -7,4 +7,4 @@ clear:
 	rm ${FILES}
 
 ep3: ep3.cpp trace.cpp
-	g++ ep3.cpp -pthread ${GCC_FLAGS} -o ep3
+	g++ ep3.cpp ${GCC_FLAGS} -o ep3 -lreadline
