@@ -6,9 +6,11 @@
 
 std::string split (std::string & a, char sep) {
     int pos = a.find(sep);
-    int n = a.length();
     std::string ret = a.substr(0, pos);
-    a = a.substr(pos+1, n-pos-1);
+    if (pos == -1)
+        a = "";
+    else
+        a = a.substr(pos+1);
     return ret;
 }
 
@@ -23,7 +25,7 @@ int main (int argc, char * argv[]) {
 
         std::string command = split(line, ' ');
 
-        std::cout << command << std::endl;
-        std::cout << line << std::endl;
+        if (command == "carrega")
+            Trace::read(line);
     }
 }

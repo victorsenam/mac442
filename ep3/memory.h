@@ -3,11 +3,12 @@
 
 #include <vector>
 
-std::vector<bool> memory_free;
-
-unsigned int memory_total, 
-             memory_virtual, 
-             memory_block, 
-             memory_page;
+class Memory {
+public:
+    static unsigned int total,
+                        virt,
+                        block,
+                        page;
+};
 
 #endif
