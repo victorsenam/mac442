@@ -4,8 +4,6 @@
 #include <vector>
 #include <iostream>
 
-class Memory;
-
 class Memory {
 public:
     class Algorithm;
