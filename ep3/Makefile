@@ -1,7 +1,7 @@
 # Nathan Benedetto Proença 8941276
 # Victor Sena Molero 8941317
 GCC_FLAGS=-g -Wall -pedantic -std=c++11
-CPP_FILES=ep3.cpp trace.cpp memory.cpp
+CPP_FILES=ep3.cpp trace.cpp memory.cpp process.cpp
 
 clear:
 	rm ${FILES}

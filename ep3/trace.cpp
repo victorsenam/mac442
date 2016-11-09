@@ -11,12 +11,7 @@ void Trace::read (std::string file_name) {
     trace >> Memory::total >> Memory::virt >> Memory::block >> Memory::page;
     trace.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    /*
     std::string line;
     while (std::getline(trace, line))
-        process_v.push_back(process(line, process_v.size()));
-
-    for (process pr : process_v)
-        pr.print();
-    */
+        Process proc(line);
 }

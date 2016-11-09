@@ -8,11 +8,12 @@
 #include <limits>
 
 #include "memory.h"
-//#include "process.h"
+#include "process.h"
 //#include "task.h"
 
 class Trace {
-    void read (std::string file_name);
+public:
+    static void read (std::string file_name);
 };
 
 #endif
