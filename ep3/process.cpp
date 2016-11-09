@@ -21,6 +21,13 @@ Process::Process (std::string line) {
     stream >> ending;
     stream >> memory;
 
+    unsigned aux;
+    while (stream >> aux) {
+        Task curr_task(this);
+        curr_task.memory = aux;
+        stream >> curr_task.time;
+        curr_task.id = Task::quant++;
+    }
+
     v.push_back(*this);
-    std::cout << id << std::endl;
 }

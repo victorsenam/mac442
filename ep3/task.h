@@ -1,15 +1,21 @@
 #ifndef EP3_TASK
 #define EP3_TASK
 
-class task {
-public:
-    // basic info
-    unsigned int id;
-    unsigned int mem;
-    unsigned int time;
-    int owner_process;
-};
+#include "process.h"
 
-unsigned int task_qt;
+class Process;
+class Task {
+public:
+// Static
+    static unsigned quant;
+
+    Task (Process * owner);
+
+// Member
+    unsigned id;
+    unsigned memory;
+    unsigned time;
+    Process * process;
+};
 
 #endif

@@ -15,6 +15,8 @@ std::string split (std::string & a, char sep) {
 }
 
 int main (int argc, char * argv[]) {
+    Memory::manager = new Memory::Algorithm();
+
     while (true) {
         std::string line = readline("(ep3): ");
 
@@ -25,7 +27,16 @@ int main (int argc, char * argv[]) {
 
         std::string command = split(line, ' ');
 
-        if (command == "carrega")
+        if (command == "carrega") {
             Trace::read(line);
+        } else if (command == "espaco") {
+            if (line == "0")
+                std::cout << "troca" << std::endl;
+        } else if (command == "executa") {
+            Memory::manager->respond();
+        } else {
+            std::cout << "Comando Desconhecido\n";
+        }
+            
     }
 }

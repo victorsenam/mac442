@@ -9,7 +9,7 @@
 
 #include "memory.h"
 #include "process.h"
-//#include "task.h"
+#include "task.h"
 
 class Trace {
 public:

@@ -7,6 +7,9 @@
 
 #include <iostream>
 
+#include "task.h"
+
+class Task;
 class Process {
 public:
 // Static
@@ -21,6 +24,7 @@ public:
     unsigned ending;
     unsigned memory;
     std::string name;
+    std::vector<Task> task;
 };
 
 #endif
