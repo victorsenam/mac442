@@ -1,4 +1,4 @@
-#include "memory.h"
+#include "page.h"
 
 Page::Algorithm * Page::manager;
 

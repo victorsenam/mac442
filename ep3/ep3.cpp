@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include "trace.h"
+#include "memory.h"
+#include "page.h"
 
 std::string split (std::string & a, char sep) {
     int pos = a.find(sep);
@@ -34,7 +36,7 @@ int main (int argc, char * argv[]) {
 		} else if (command == "substitui") {
         } else if (command == "executa") {
             Memory::manager->respond();
-			Page::manager->responde();
+			Page::manager->respond();
         } else {
             std::cout << "Comando Desconhecido\n";
         }
