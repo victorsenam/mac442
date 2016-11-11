@@ -5,6 +5,7 @@
 #include "trace.h"
 #include "memory.h"
 #include "page.h"
+#include "binaryio.h"
 
 std::string split (std::string & a, char sep) {
     int pos = a.find(sep);
@@ -17,6 +18,8 @@ std::string split (std::string & a, char sep) {
 }
 
 int main (int argc, char * argv[]) {
+    return BinaryIO::main();
+
     Memory::manager = new Memory::Algorithm();
 	Page::manager = new Page::Algorithm();
 
