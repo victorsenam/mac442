@@ -1,4 +1,5 @@
 #include "binaryio.h"
+#include <bitset>
 
 BinaryIO::BinaryIO (std::string str) {
     file = std::fstream(str.c_str(), std::ios::binary|std::ios::out|std::ios::in);
@@ -13,7 +14,7 @@ void BinaryIO::write (unsigned pos, int val) {
     pos *= 4;
     
     for (int i = 3; i >= 0; i--) {
-        buff[i] = (val&((1<<8)-1));
+        buff[i] = (val&((1u<<8)-1));
         val >>= 8;
     }
 
@@ -23,7 +24,7 @@ void BinaryIO::write (unsigned pos, int val) {
 }
 
 int BinaryIO::read (unsigned pos) {
-    int val = 0;
+    unsigned val = 0;
     char buff[4];
 
     pos *= 4;
@@ -33,7 +34,7 @@ int BinaryIO::read (unsigned pos) {
 
     for (int i = 0; i < 4; i++) {
         val <<= 8;
-        val |= buff[i];
+        val |= (unsigned(buff[i])&((1u<<8)-1));
     }
     return val;
 }
