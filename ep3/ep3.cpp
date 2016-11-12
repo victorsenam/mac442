@@ -3,9 +3,13 @@
 
 #include <iostream>
 #include "trace.h"
+#include "runner.h"
+
 #include "memory.h"
+#include "memory_stub.h"
+
 #include "page.h"
-#include "binaryio.h"
+
 
 std::string split (std::string & a, char sep) {
     int pos = a.find(sep);
@@ -34,10 +38,11 @@ int main (int argc, char * argv[]) {
         if (command == "carrega") {
             Trace::read(line);
         } else if (command == "espaco") {
+            if (line == "0")
+                Memory::manager = new MemoryStub();
 		} else if (command == "substitui") {
         } else if (command == "executa") {
-            Memory::manager->respond();
-			Page::manager->respond();
+            Runner::execute();
         } else {
             std::cout << "Comando Desconhecido\n";
         }

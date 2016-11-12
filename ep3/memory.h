@@ -2,7 +2,6 @@
 #define EP3_MEMORY
 
 #include <vector>
-#include <iostream>
 
 class Memory {
 public:
@@ -18,7 +17,8 @@ public:
 
 class Memory::Algorithm {
 public:
-    virtual void respond();
+    virtual unsigned allocate (unsigned size);
+    virtual void visit (unsigned position);
 };
 
 #endif

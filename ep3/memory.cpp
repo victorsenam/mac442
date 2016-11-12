@@ -7,6 +7,11 @@ unsigned int Memory::total,
 
 Memory::Algorithm * Memory::manager;
 
-void Memory::Algorithm::respond() {
-    std::cout << "Memory Ok!" << std::endl;
+unsigned Memory::Algorithm::allocate (unsigned size) {
+    return 0u;
 }
+
+void Memory::Algorithm::visit (unsigned position) {
+    return;
+}
+

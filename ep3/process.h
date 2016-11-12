@@ -19,12 +19,18 @@ public:
     Process (std::string line);
 
 // Member
-    unsigned id;
+    int id;
     unsigned time;
     unsigned ending;
     unsigned memory;
     std::string name;
+
     std::vector<Task> task;
+    int current_task;
+
+    unsigned next_time () const;
+
+    bool operator < (const Process & ot) const;
 };
 
 #endif
