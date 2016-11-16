@@ -2,6 +2,7 @@
 #define EP3_MEMORY
 
 #include <vector>
+#include "binaryio.h"
 
 class Memory {
 public:
@@ -13,6 +14,8 @@ public:
                         page;
 
     static Algorithm * manager;
+    static BinaryIO * io_physical;
+    static BinaryIO * io_virtual;
 
     static std::vector<bool> used;
 

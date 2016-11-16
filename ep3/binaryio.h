@@ -8,6 +8,8 @@
 
 class BinaryIO {
 public: 
+    static BinaryIO * stream;
+
     std::fstream file;
 
     BinaryIO (std::string str);

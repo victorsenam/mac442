@@ -25,6 +25,9 @@ int main (int argc, char * argv[]) {
     Memory::manager = new Memory::Algorithm();
 	Page::manager = new Page::Algorithm();
 
+    Memory::io_physical = new BinaryIO("/tmp/ep3.mem");
+    Memory::io_virtual = new BinaryIO("/tmp/ep3.vir");
+
     while (true) {
         std::string line = readline("(ep3): ");
 
