@@ -9,5 +9,5 @@ unsigned MemoryFirst::find_free_space (unsigned blocks) {
             return ls;
     }
 
-    return Memory::total/Memory::block;
+    return Memory::used.size();
 }
