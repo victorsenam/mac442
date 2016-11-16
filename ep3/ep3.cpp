@@ -7,6 +7,7 @@
 
 #include "memory.h"
 #include "memory_stub.h"
+#include "memory_first.h"
 
 #include "page.h"
 
@@ -43,6 +44,8 @@ int main (int argc, char * argv[]) {
         } else if (command == "espaco") {
             if (line == "0")
                 Memory::manager = new MemoryStub();
+            else if (line == "1")
+                Memory::manager = new MemoryFirst();
 		} else if (command == "substitui") {
         } else if (command == "executa") {
             Runner::execute();
