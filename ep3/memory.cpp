@@ -29,5 +29,6 @@ void Memory::Algorithm::visit (unsigned pid, unsigned position) {
 }
 
 void Memory::Algorithm::free (unsigned position, unsigned size) {
-    return;
+	for (unsigned i = 0; i < size; i++)
+		Memory::io_physical->write(position+1, -1);
 }
