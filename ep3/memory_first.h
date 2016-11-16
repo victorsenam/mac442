@@ -7,11 +7,7 @@
 #include "binaryio.h"
 
 class MemoryFirst : public Memory::Algorithm {
-public:
-    virtual unsigned allocate (unsigned pid, unsigned blocks);
-
-private:
-    virtual unsigned find (unsigned pid, unsigned blocks);
+    virtual unsigned find_free_space (unsigned blocks);
 };
 
 #endif

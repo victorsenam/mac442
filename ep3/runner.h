@@ -9,7 +9,6 @@
 #include "memory.h"
 #include "page.h"
 
-#include <iostream>
 #include <queue>
 
 class Runner {

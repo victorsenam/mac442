@@ -28,7 +28,7 @@ public:
     std::vector<Task> task;
     int current_task;
 
-    unsigned memory_init;
+    unsigned first_block;
 
     unsigned next_time () const;
 

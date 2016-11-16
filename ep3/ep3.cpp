@@ -6,7 +6,6 @@
 #include "runner.h"
 
 #include "memory.h"
-#include "memory_stub.h"
 #include "memory_first.h"
 
 #include "page.h"
@@ -42,10 +41,10 @@ int main (int argc, char * argv[]) {
         if (command == "carrega") {
             Trace::read(line);
         } else if (command == "espaco") {
-            if (line == "0")
-                Memory::manager = new MemoryStub();
-            else if (line == "1")
+            if (line == "1")
                 Memory::manager = new MemoryFirst();
+            else
+                std::cout << "Gerenciador de Memória Desconhecido\n";
 		} else if (command == "substitui") {
         } else if (command == "executa") {
             Runner::execute();
