@@ -7,6 +7,7 @@
 
 #include "memory.h"
 #include "memory_first.h"
+#include "memory_next.h"
 
 #include "page.h"
 
@@ -43,6 +44,8 @@ int main (int argc, char * argv[]) {
         } else if (command == "espaco") {
             if (line == "1")
                 Memory::manager = new MemoryFirst();
+            else if (line == "2")
+                Memory::manager = new MemoryNext();
             else
                 std::cout << "Gerenciador de Memória Desconhecido\n";
 		} else if (command == "substitui") {
