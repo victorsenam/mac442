@@ -4,7 +4,6 @@
 BinaryIO::BinaryIO (std::string str) {
     file = std::fstream(str.c_str(), std::ios::binary|std::ios::out|std::ios::in);
 
-    std::cout << str << std::endl;
     assert(file.is_open());
 }
 
@@ -37,26 +36,4 @@ int BinaryIO::read (unsigned pos) {
         val |= (unsigned(buff[i])&((1u<<8)-1));
     }
     return val;
-}
-
-int BinaryIO::main () {
-    char c;
-    unsigned p;
-    int v;
-    std::string fname;
-
-    std::cin >> fname;
-
-    BinaryIO obj(fname);
-
-    while (scanf(" %c %u", &c, &p) != EOF) {
-        if (c == 'w') {
-            scanf("%d", &v);
-            obj.write(p, v);
-        } else {
-            printf("%d\n", obj.read(p));
-        }
-    }
-
-    return 0;
 }

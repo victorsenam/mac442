@@ -4,7 +4,6 @@
 #include <fstream>
 #include <string>
 #include <cassert>
-#include <iostream>
 
 class BinaryIO {
 public: 
@@ -16,8 +15,6 @@ public:
 
     void write (unsigned pos, int val);
     int read (unsigned pos);
-
-    static int main ();
 };
 
 #endif
