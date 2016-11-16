@@ -47,7 +47,7 @@ int main (int argc, char * argv[]) {
                 std::cout << "Gerenciador de Memória Desconhecido\n";
 		} else if (command == "substitui") {
         } else if (command == "executa") {
-            Runner::execute();
+            Runner::execute(stoul(line, nullptr, 10));
         } else {
             std::cout << "Comando Desconhecido\n";
         }
