@@ -18,6 +18,8 @@ void Memory::reinit () {
 	
 	for (unsigned i = 0; i < Memory::virt; i++)
 		Memory::io_virtual->write(i, -1);
+
+    Memory::manager->reinit();
 }
 
 void Memory::Algorithm::reserve (Process & proc, unsigned blocks, unsigned begin) {
@@ -50,4 +52,8 @@ void Memory::Algorithm::free (unsigned initial_block, unsigned blocks) {
 unsigned Memory::Algorithm::find_free_space (unsigned blocks) {
     Helper::assure(false, "Você não carregou nenhum algoritmo de Gerenciamento de Memória\n");
     return 0u;
+}
+
+void Memory::Algorithm::reinit () {
+    return;
 }

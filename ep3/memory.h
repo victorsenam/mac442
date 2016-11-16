@@ -36,6 +36,7 @@ class Memory::Algorithm {
 public:
     // this changes for each algorithm
     virtual unsigned find_free_space (unsigned blocks);
+    virtual void reinit ();
 
     void visit (unsigned pid, unsigned position);
     void free (unsigned initial_block, unsigned blocks);
