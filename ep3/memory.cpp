@@ -24,8 +24,8 @@ unsigned Memory::Algorithm::allocate (unsigned pid, unsigned size) {
     return 0u;
 }
 
-void Memory::Algorithm::visit (unsigned position) {
-    return;
+void Memory::Algorithm::visit (unsigned pid, unsigned position) {
+	Memory::io_physical->write(position, pid);
 }
 
 void Memory::Algorithm::free (unsigned position, unsigned size) {

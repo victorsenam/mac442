@@ -6,7 +6,7 @@
 
 class MemoryStub : public Memory::Algorithm {
     unsigned allocate (unsigned pid, unsigned blocks);
-    void visit (unsigned block);
+    void visit (unsigned pid, unsigned block);
     void free (unsigned initial_block, unsigned blocks);
 };
 

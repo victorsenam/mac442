@@ -5,8 +5,8 @@ unsigned MemoryStub::allocate (unsigned pid, unsigned blocks) {
     return 0u;
 }
 
-void MemoryStub::visit (unsigned block) {
-    std::cout << "visiting block " << block << std::endl;
+void MemoryStub::visit (unsigned pid, unsigned block) {
+    std::cout << pid << " visiting block " << block << std::endl;
 }
 
 void MemoryStub::free (unsigned initial_block, unsigned blocks) {

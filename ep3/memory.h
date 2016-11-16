@@ -25,7 +25,7 @@ public:
 class Memory::Algorithm {
 public:
     virtual unsigned allocate (unsigned pid, unsigned blocks);
-    virtual void visit (unsigned block);
+    virtual void visit (unsigned pid, unsigned block);
     virtual void free (unsigned initial_block, unsigned blocks);
 };
 

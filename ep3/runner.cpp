@@ -23,7 +23,7 @@ void Runner::execute () {
             continue;
         } else {
             Task & curr_task = curr.task[curr.current_task];
-            Memory::manager->visit(curr.memory_init + curr_task.memory/Memory::block);
+            Memory::manager->visit(curr.id, curr.memory_init + curr_task.memory/Memory::block);
         }
 
         curr.current_task++;
