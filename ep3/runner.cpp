@@ -55,7 +55,8 @@ void Runner::execute (unsigned interval) {
             Memory::manager->reserve(curr, blocks_necessary, available_space);
             Helper::assure(curr.first_block < Memory::total/Memory::block, "Could not allocate memory! Exiting.");
         } else if (curr.current_task == int(curr.task.size())) {
-            Memory::manager->free(curr.first_block, curr.memory);
+            unsigned blocks_necessary = (curr.memory+Memory::block-1)/Memory::block;
+            Memory::manager->free(curr.first_block, blocks_necessary);
             continue;
         } else {
             Task & curr_task = curr.task[curr.current_task];
