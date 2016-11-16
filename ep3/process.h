@@ -28,6 +28,8 @@ public:
     std::vector<Task> task;
     int current_task;
 
+    unsigned memory_init;
+
     unsigned next_time () const;
 
     bool operator < (const Process & ot) const;

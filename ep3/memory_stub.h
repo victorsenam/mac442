@@ -5,8 +5,9 @@
 #include <iostream>
 
 class MemoryStub : public Memory::Algorithm {
-    virtual unsigned allocate (unsigned size);
-    virtual void visit (unsigned position);
+    unsigned allocate (unsigned pid, unsigned blocks);
+    void visit (unsigned block);
+    void free (unsigned initial_block, unsigned blocks);
 };
 
 #endif

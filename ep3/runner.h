@@ -1,8 +1,12 @@
 #ifndef EP3_RUNNER
 #define EP3_RUNER
 
+#include "helper.h"
+
 #include "process.h"
 #include "task.h"
+
+#include "memory.h"
 
 #include <iostream>
 #include <queue>
