@@ -7,7 +7,7 @@
 
 class Helper {
 public: 
-    static void assert (bool expression, std::string message);
+    static void assure (bool expression, std::string message);
 };
 
 #endif
