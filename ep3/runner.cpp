@@ -1,7 +1,10 @@
 #include "runner.h"
 
 void Runner::execute () {
-    std::priority_queue<Process> pq;    
+    Memory::reinit();
+    Page::reinit();
+
+    std::priority_queue<Process> pq;
 
     for (Process pr : Process::v)
         pq.push(pr);

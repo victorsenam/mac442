@@ -3,6 +3,7 @@
 
 #include "memory.h"
 #include <vector>
+#include <map>
 
 class Page {
 public:
@@ -10,7 +11,10 @@ public:
 
     static Algorithm * manager;
 
+    static std::map<unsigned, unsigned> table;
+
     static unsigned get_page (unsigned block);
+    static void reinit ();
 };
 
 class Page::Algorithm {

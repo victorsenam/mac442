@@ -7,6 +7,7 @@
 #include "task.h"
 
 #include "memory.h"
+#include "page.h"
 
 #include <iostream>
 #include <queue>

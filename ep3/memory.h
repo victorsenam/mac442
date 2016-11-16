@@ -11,8 +11,12 @@ public:
                         virt,
                         block,
                         page;
-    
+
     static Algorithm * manager;
+
+    static std::vector<bool> used;
+
+    static void reinit ();
 };
 
 class Memory::Algorithm {
