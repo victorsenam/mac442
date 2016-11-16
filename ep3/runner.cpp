@@ -16,7 +16,7 @@ void Runner::execute () {
         std::cout << curr.next_time() << " [" <<  curr.name << "]: ";
 
         if (curr.current_task == -1) {
-            curr.memory_init = Memory::manager->allocate(curr.id, curr.memory/Memory::block);
+            curr.memory_init = Memory::manager->allocate(curr.id, (curr.memory+Memory::block-1)/Memory::block);
             Helper::assure(curr.memory_init != Memory::total/Memory::block, "Could not allocate memory! Exiting.");
         } else if (curr.current_task == int(curr.task.size())) {
             Memory::manager->free(curr.memory_init, curr.memory);
