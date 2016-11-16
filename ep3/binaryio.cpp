@@ -2,6 +2,7 @@
 #include <bitset>
 
 BinaryIO::BinaryIO (std::string str) {
+    std::fstream(str.c_str(), std::ios::out);
     file = std::fstream(str.c_str(), std::ios::binary|std::ios::out|std::ios::in);
 
     assert(file.is_open());
