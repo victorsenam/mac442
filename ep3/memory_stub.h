@@ -5,6 +5,7 @@
 #include <iostream>
 
 class MemoryStub : public Memory::Algorithm {
+public:
     unsigned allocate (unsigned pid, unsigned blocks);
     void visit (unsigned pid, unsigned block);
     void free (unsigned initial_block, unsigned blocks);
