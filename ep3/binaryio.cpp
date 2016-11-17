@@ -11,7 +11,7 @@ BinaryIO::BinaryIO (std::string str) {
 void BinaryIO::write (unsigned pos, BinaryIO * source, unsigned begin, unsigned size) {
     for (unsigned i = 0; i < size; i++) {
         unsigned val = source->read(begin+i);
-        file->write(pos + i, val);
+        write(pos + i, val);
     }
 }
 
