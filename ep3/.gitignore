@@ -2,6 +2,7 @@ ep3
 *.vim
 *.swp
 *.bin
+run.sh
 inp
 out
 
