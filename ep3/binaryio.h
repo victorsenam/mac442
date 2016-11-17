@@ -11,6 +11,7 @@ public:
 
     BinaryIO (std::string str);
 
+    void write (unsigned pos, BinaryIO * source, unsigned begin, unsigned size);
     void write (unsigned pos, int val);
     int read (unsigned pos);
 };
