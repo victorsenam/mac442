@@ -9,6 +9,7 @@
 #include "memory_first.h"
 #include "memory_next.h"
 #include "memory_best.h"
+#include "memory_worst.h"
 
 #include "page.h"
 
@@ -54,6 +55,8 @@ int main (int argc, char * argv[]) {
                 Memory::manager = new MemoryNext();
             else if (line == "3")
                 Memory::manager = new MemoryBest();
+            else if (line == "4")
+                Memory::manager = new MemoryWorst();
             else
                 std::cout << "Gerenciador de Memória Desconhecido\n";
 		} else if (command == "substitui") {
