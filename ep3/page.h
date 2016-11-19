@@ -34,7 +34,7 @@ public:
     virtual void reinit ();
     virtual unsigned page_to_remove ();
 
-    virtual void signal (unsigned virt_page);
+    virtual void signal ();
     virtual void add (unsigned virt_page, unsigned phys_page);
 
     virtual void visit (unsigned pid, unsigned virt_position, bool converted=false);

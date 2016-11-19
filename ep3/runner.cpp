@@ -34,6 +34,7 @@ void Runner::execute (unsigned interval) {
 
     unsigned next_print = 0;
     unsigned next_r = 0;
+    unsigned next_p = 0;
 
     for (Process pr : Process::v)
         pq.push(pr);
@@ -50,6 +51,10 @@ void Runner::execute (unsigned interval) {
         while (r_interval && next_r <= curr.next_time().first) {
             Page::reset_r();
             next_r += r_interval;
+        }
+
+        while (next_p <= curr.next_time().first) {
+            Page::manager->signal();
         }
 
         if (curr.current_task == -1) {

@@ -32,7 +32,6 @@ void Page::Algorithm::visit (unsigned pid, unsigned virt_position, bool converte
         phys_position = get(virt_position);
 
     Memory::io_physical->write(phys_position, pid);
-    Page::manager->signal(virt_position/Memory::page);
 }
 
 unsigned Page::map (unsigned virt_page) {
@@ -78,7 +77,7 @@ unsigned Page::Algorithm::page_to_remove () {
     return 0u;
 }
 
-void Page::Algorithm::signal (unsigned virt_page) {
+void Page::Algorithm::signal () {
 }
 
 void Page::Algorithm::add (unsigned virt_page, unsigned phys_page) {
