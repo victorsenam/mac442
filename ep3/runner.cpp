@@ -55,6 +55,7 @@ void Runner::execute (unsigned interval) {
 
         while (next_p <= curr.next_time().first) {
             Page::manager->signal();
+            next_p++;
         }
 
         if (curr.current_task == -1) {
