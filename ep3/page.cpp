@@ -1,12 +1,16 @@
 #include "page.h"
 
 std::unordered_map<unsigned, unsigned> Page::table;
+std::vector<bool> Page::r;
 Page::Algorithm * Page::manager;
 
 void Page::reinit () {
     Page::manager->reinit();
 
     Page::table.clear();
+
+    Page::r.clear();
+    Page::r.resize(Memory::total/Memory::page, 0);
 }
 
 unsigned Page::get (unsigned virt_position) {
@@ -42,8 +46,10 @@ unsigned Page::map (unsigned virt_page) {
         table.erase(to_remove);
     }
 
+    Page::manager->add(virt_page, phys_page);
     update_phys(virt_page, phys_page);
     table[virt_page] = phys_page;
+    r[phys_page] = 1;
     return phys_page;
 }
 
@@ -60,6 +66,11 @@ void Page::finish () {
         update_virt(mapping.second, mapping.first);
 }
 
+void Page::reset_r () {
+    for (auto mapping : table)
+        r[mapping.second] = 0;
+}
+
 void Page::Algorithm::reinit () {
 }
 
@@ -70,3 +81,5 @@ unsigned Page::Algorithm::page_to_remove () {
 void Page::Algorithm::signal (unsigned virt_page) {
 }
 
+void Page::Algorithm::add (unsigned virt_page, unsigned phys_page) {
+}

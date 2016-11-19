@@ -23,6 +23,7 @@ private:
     static void dump_memory (BinaryIO * mem, unsigned size, std::string name, bool printused = false);
     static void dump_all (unsigned time);
 
+    static const unsigned r_interval = 4u;
 };
 
 #endif

@@ -33,6 +33,7 @@ void Runner::execute (unsigned interval) {
     std::priority_queue<Process> pq;
 
     unsigned next_print = 0;
+    unsigned next_r = 0;
 
     for (Process pr : Process::v)
         pq.push(pr);
@@ -44,6 +45,11 @@ void Runner::execute (unsigned interval) {
         while (interval && next_print <= curr.next_time().first) {
             Runner::dump_all(next_print);
             next_print += interval;
+        }
+
+        while (r_interval && next_r <= curr.next_time().first) {
+            Page::reset_r();
+            next_r += r_interval;
         }
 
         if (curr.current_task == -1) {
