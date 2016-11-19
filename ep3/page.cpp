@@ -9,14 +9,14 @@ void Page::reinit () {
     Page::manager->reinit();
 }
 
-unsigned Page::get (unsigned virt_position) {
+unsigned Page::Algorithm::get (unsigned virt_position) {
     std::unordered_map<unsigned, unsigned>::iterator it;
     unsigned page = virt_position/Memory::page;
     unsigned offset = virt_position%Memory::page;
     it = table.find(page);
 
     if (it == table.end()) {
-        return map(page)*Memory::page + offset;
+        return Page::map(page)*Memory::page + offset;
     } else {
         return it->second*Memory::page + offset;
     }
@@ -25,7 +25,7 @@ unsigned Page::get (unsigned virt_position) {
 void Page::visit (unsigned pid, unsigned virt_position, bool converted) {
     unsigned phys_position = virt_position;
     if (!converted)
-        phys_position = get(virt_position);
+        phys_position = Page::manager->get(virt_position);
 
     Memory::io_physical->write(phys_position, pid);
     Page::manager->signal(virt_position/Memory::page);

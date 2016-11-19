@@ -30,7 +30,7 @@ void Memory::reserve (Process & proc, unsigned blocks, unsigned begin) {
 
 
     for (unsigned i = 0; i < blocks; i++) {
-        unsigned phys_pos = Page::get((begin+i)*Memory::block);
+        unsigned phys_pos = Page::manager->get((begin+i)*Memory::block);
         Memory::used[begin+i] = 1;
         for (unsigned j = 0; j < Memory::block; j++) {
             Page::visit(pid, phys_pos+j, true);
@@ -40,7 +40,7 @@ void Memory::reserve (Process & proc, unsigned blocks, unsigned begin) {
 
 void Memory::free (unsigned initial_block, unsigned blocks) {
 	for (unsigned i = 0; i < blocks; i++) {
-        unsigned phys_pos = Page::get((initial_block+i)*Memory::block);
+        unsigned phys_pos = Page::manager->get((initial_block+i)*Memory::block);
         used[i+initial_block] = 0;
         for (unsigned j = 0; j < Memory::block; j++)
             Page::visit(-1, phys_pos+j, true);
