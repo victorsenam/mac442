@@ -46,8 +46,6 @@ void Runner::execute (unsigned interval) {
             next_print += interval;
         }
 
-        std::cout << "Processing: " << curr.name << "[" << curr.id << "]: " << curr.current_task << "/" << curr.task.size() << std::endl;
-    
         if (curr.current_task == -1) {
             unsigned blocks_necessary = (curr.memory+Memory::block-1)/Memory::block;
             unsigned available_space = Memory::manager->find_free_space(blocks_necessary);
