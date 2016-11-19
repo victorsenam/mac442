@@ -15,6 +15,7 @@
 #include "page_optimal.h"
 #include "page_second.h"
 #include "page_clock.h"
+#include "page_lru.h"
 
 std::string split (std::string & a, char sep) {
     int pos = a.find(sep);
@@ -68,6 +69,8 @@ int main (int argc, char * argv[]) {
                 Page::manager = new PageSecond();
             else if (line == "3")
                 Page::manager = new PageClock();
+            else if (line == "4")
+                Page::manager = new PageLRU();
             else
                 std::cout << "Gerenciador de Páginas Desconhecido\n";
         } else if (command == "executa") {
