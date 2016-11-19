@@ -27,8 +27,8 @@ void Runner::dump_all (unsigned time) {
 }
 
 void Runner::execute (unsigned interval) {
-    Memory::reinit();
     Page::reinit();
+    Memory::reinit();
 
     std::priority_queue<Process> pq;
 
