@@ -67,6 +67,9 @@ void Runner::execute (unsigned interval) {
         pq.push(curr);
     }
 
+    Page::finish();
+
     if (interval)
         Runner::dump_all(next_print);
+
 }

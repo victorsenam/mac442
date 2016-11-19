@@ -28,24 +28,26 @@ void Memory::Algorithm::reserve (Process & proc, unsigned blocks, unsigned begin
 
     Helper::assure(begin+blocks <= Memory::used.size(), "Tentando reservar bloco não acessível (não há memória suficiente)\n");
 
+
     for (unsigned i = 0; i < blocks; i++) {
+        unsigned phys_pos = Page::get((begin+i)*Memory::block);
         Memory::used[begin+i] = 1;
         for (unsigned j = 0; j < Memory::block; j++) {
-            Memory::io_virtual->write((i+begin)*Memory::block + j, pid);
+            Page::visit(pid, phys_pos+j, true);
         }
     }
 }
 
 void Memory::Algorithm::visit (unsigned pid, unsigned position) {
-	Memory::io_virtual->write(position, pid);
+    Page::visit(pid, position);
 }
 
 void Memory::Algorithm::free (unsigned initial_block, unsigned blocks) {
 	for (unsigned i = 0; i < blocks; i++) {
+        unsigned phys_pos = Page::get((initial_block+i)*Memory::block);
         used[i+initial_block] = 0;
-        for (unsigned j = 0; j < Memory::block; j++) {
-            Memory::io_virtual->write((i+initial_block)*Memory::block + j, -1);
-        }
+        for (unsigned j = 0; j < Memory::block; j++)
+            Page::visit(-1, phys_pos+j, true);
     }
 }
 

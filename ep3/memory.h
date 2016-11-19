@@ -5,7 +5,9 @@
 #include "binaryio.h"
 #include "helper.h"
 #include "process.h"
+#include "page.h"
 
+class Page;
 class Memory {
 public:
     class Algorithm;
