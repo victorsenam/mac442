@@ -1,5 +1,5 @@
 #ifndef EP3_RUNNER
-#define EP3_RUNER
+#define EP3_RUNNER
 
 #include "helper.h"
 
