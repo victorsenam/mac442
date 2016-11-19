@@ -50,15 +50,15 @@ void Runner::execute (unsigned interval) {
             unsigned blocks_necessary = (curr.memory+Memory::block-1)/Memory::block;
             unsigned available_space = Memory::manager->find_free_space(blocks_necessary);
 
-            Memory::manager->reserve(curr, blocks_necessary, available_space);
+            Memory::reserve(curr, blocks_necessary, available_space);
             Helper::assure(curr.first_block < Memory::virt/Memory::block, "Could not allocate memory! Exiting.");
         } else if (curr.current_task == int(curr.task.size())) {
             unsigned blocks_necessary = (curr.memory+Memory::block-1)/Memory::block;
-            Memory::manager->free(curr.first_block, blocks_necessary);
+            Memory::free(curr.first_block, blocks_necessary);
             continue;
         } else {
             Task & curr_task = curr.task[curr.current_task];
-            Memory::manager->visit(curr.id, curr.first_block*Memory::block + curr_task.memory);
+            Page::visit(curr.id, curr.first_block*Memory::block + curr_task.memory);
         }
 
         curr.current_task++;

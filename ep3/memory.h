@@ -31,6 +31,9 @@ public:
     // if bit is not set, block is free
     static std::vector<bool> used;
 
+    static void free (unsigned initial_block, unsigned blocks);
+    static void reserve (Process & proc, unsigned blocks, unsigned begin);
+
     static void reinit ();
 };
 
@@ -39,10 +42,6 @@ public:
     // this changes for each algorithm
     virtual unsigned find_free_space (unsigned blocks);
     virtual void reinit ();
-
-    void visit (unsigned pid, unsigned position);
-    void free (unsigned initial_block, unsigned blocks);
-    void reserve (Process & proc, unsigned blocks, unsigned begin);
 };
 
 #endif

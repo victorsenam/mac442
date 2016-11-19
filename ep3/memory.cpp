@@ -22,7 +22,7 @@ void Memory::reinit () {
     Memory::manager->reinit();
 }
 
-void Memory::Algorithm::reserve (Process & proc, unsigned blocks, unsigned begin) {
+void Memory::reserve (Process & proc, unsigned blocks, unsigned begin) {
     proc.first_block = begin;
     unsigned pid = proc.id;
 
@@ -38,11 +38,7 @@ void Memory::Algorithm::reserve (Process & proc, unsigned blocks, unsigned begin
     }
 }
 
-void Memory::Algorithm::visit (unsigned pid, unsigned position) {
-    Page::visit(pid, position);
-}
-
-void Memory::Algorithm::free (unsigned initial_block, unsigned blocks) {
+void Memory::free (unsigned initial_block, unsigned blocks) {
 	for (unsigned i = 0; i < blocks; i++) {
         unsigned phys_pos = Page::get((initial_block+i)*Memory::block);
         used[i+initial_block] = 0;
