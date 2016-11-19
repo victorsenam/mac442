@@ -30,7 +30,7 @@ public:
 
     unsigned first_block;
 
-    unsigned next_time () const;
+    std::pair<unsigned, int> next_time () const;
 
     bool operator < (const Process & ot) const;
 };

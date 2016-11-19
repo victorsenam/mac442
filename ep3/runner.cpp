@@ -41,7 +41,7 @@ void Runner::execute (unsigned interval) {
         Process curr = pq.top();
         pq.pop();
 
-        while (interval && next_print <= curr.next_time()) {
+        while (interval && next_print <= curr.next_time().first) {
             Runner::dump_all(next_print);
             next_print += interval;
         }

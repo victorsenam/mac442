@@ -35,12 +35,12 @@ Process::Process (std::string line) {
     v.push_back(*this);
 }
 
-unsigned Process::next_time () const {
+std::pair<unsigned, int> Process::next_time () const {
     if (current_task == -1)
-        return time;
+        return std::pair<unsigned, int>(time, -id);
     if (current_task >= int(task.size()))
-        return ending;
-    return task[current_task].time;
+        return std::pair<unsigned, int>(ending, -id);
+    return std::pair<unsigned, int>(task[current_task].time, task[current_task].id);
 }
 
 bool Process::operator < (const Process & ot) const {
