@@ -22,8 +22,8 @@ void Runner::dump_memory (BinaryIO * mem, unsigned size, std::string name, bool 
 
 void Runner::dump_all (unsigned time) {
     printf("==== Estado da Memória: %us ====\n", time);
-    Runner::dump_memory(Memory::io_physical, Memory::total, "Memória Física", true);
-    //Runner::dump_memory(Memory::io_virtual, Memory::virt, "Memória Virtual");
+    Runner::dump_memory(Memory::io_virtual, Memory::virt, "Memória Virtual", true);
+    Runner::dump_memory(Memory::io_physical, Memory::total, "Memória Física");
 }
 
 void Runner::execute (unsigned interval) {

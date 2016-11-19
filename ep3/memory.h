@@ -24,7 +24,7 @@ public:
     static BinaryIO * io_virtual;
 
     // one position (bool, occupies one bit) per block (Memory::block bytes)
-    // refers to io_physical file
+    // refers to io_virtual file
     // if bit is set, block is assigned to some process
     // if bit is not set, block is free
     static std::vector<bool> used;

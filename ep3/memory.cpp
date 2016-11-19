@@ -11,7 +11,7 @@ BinaryIO * Memory::io_virtual;
 
 void Memory::reinit () {
 	Memory::used.clear();
-	Memory::used.resize(Memory::total/Memory::block, 0);
+	Memory::used.resize(Memory::virt/Memory::block, 0);
 
 	for (unsigned i = 0; i < Memory::total; i++)
 		Memory::io_physical->write(i, -1);
@@ -31,20 +31,20 @@ void Memory::Algorithm::reserve (Process & proc, unsigned blocks, unsigned begin
     for (unsigned i = 0; i < blocks; i++) {
         Memory::used[begin+i] = 1;
         for (unsigned j = 0; j < Memory::block; j++) {
-            Memory::io_physical->write((i+begin)*Memory::block + j, pid);
+            Memory::io_virtual->write((i+begin)*Memory::block + j, pid);
         }
     }
 }
 
 void Memory::Algorithm::visit (unsigned pid, unsigned position) {
-	Memory::io_physical->write(position, pid);
+	Memory::io_virtual->write(position, pid);
 }
 
 void Memory::Algorithm::free (unsigned initial_block, unsigned blocks) {
 	for (unsigned i = 0; i < blocks; i++) {
         used[i+initial_block] = 0;
         for (unsigned j = 0; j < Memory::block; j++) {
-            Memory::io_physical->write((i+initial_block)*Memory::block + j, -1);
+            Memory::io_virtual->write((i+initial_block)*Memory::block + j, -1);
         }
     }
 }
