@@ -13,7 +13,6 @@ public:
 
     static Algorithm * manager;
 
-    static void visit (unsigned pid, unsigned virt_position, bool converted=false);
     // receive positions from virtual memory
     static unsigned get (unsigned virt_position);
     static void reinit ();
@@ -22,7 +21,6 @@ public:
 
 private:
     static std::unordered_map<unsigned, unsigned> table;
-
 
     // receive pages from virtual memory
     static unsigned map (unsigned virt_page);
@@ -36,6 +34,8 @@ public:
     virtual void reinit ();
     virtual unsigned page_to_remove ();
     virtual void signal (unsigned virt_page);
+
+    virtual void visit (unsigned pid, unsigned virt_position, bool converted=false);
 };
 
 #endif

@@ -58,7 +58,7 @@ void Runner::execute (unsigned interval) {
             continue;
         } else {
             Task & curr_task = curr.task[curr.current_task];
-            Page::visit(curr.id, curr.first_block*Memory::block + curr_task.memory);
+            Page::manager->visit(curr.id, curr.first_block*Memory::block + curr_task.memory);
         }
 
         curr.current_task++;

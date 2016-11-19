@@ -22,7 +22,7 @@ unsigned Page::get (unsigned virt_position) {
     }
 }
 
-void Page::visit (unsigned pid, unsigned virt_position, bool converted) {
+void Page::Algorithm::visit (unsigned pid, unsigned virt_position, bool converted) {
     unsigned phys_position = virt_position;
     if (!converted)
         phys_position = get(virt_position);
