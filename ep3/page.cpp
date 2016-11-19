@@ -81,4 +81,5 @@ void Page::Algorithm::signal () {
 }
 
 void Page::Algorithm::add (unsigned virt_page, unsigned phys_page) {
+    Page::r[phys_page] = 1;
 }
