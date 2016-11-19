@@ -4,9 +4,9 @@ std::unordered_map<unsigned, unsigned> Page::table;
 Page::Algorithm * Page::manager;
 
 void Page::reinit () {
-    Page::table.clear();
-
     Page::manager->reinit();
+
+    Page::table.clear();
 }
 
 unsigned Page::get (unsigned virt_position) {
