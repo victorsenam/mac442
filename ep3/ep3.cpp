@@ -12,7 +12,7 @@
 #include "memory_worst.h"
 
 #include "page.h"
-
+#include "page_optimal.h"
 
 std::string split (std::string & a, char sep) {
     int pos = a.find(sep);
@@ -60,6 +60,10 @@ int main (int argc, char * argv[]) {
             else
                 std::cout << "Gerenciador de Memória Desconhecido\n";
 		} else if (command == "substitui") {
+            if (line == "1")
+                Page::manager = new PageOptimal();
+            else
+                std::cout << "Gerenciador de Espaço Desconhecido\n";
         } else if (command == "executa") {
             Runner::execute(stoul(line, nullptr, 10));
         } else {

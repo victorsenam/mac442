@@ -12,6 +12,7 @@ public:
     class Algorithm;
 
     static Algorithm * manager;
+    static std::unordered_map<unsigned, unsigned> table;
 
     // receive positions from virtual memory
     static unsigned get (unsigned virt_position);
@@ -20,8 +21,6 @@ public:
     static void finish ();
 
 private:
-    static std::unordered_map<unsigned, unsigned> table;
-
     // receive pages from virtual memory
     static unsigned map (unsigned virt_page);
     
