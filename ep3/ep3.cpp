@@ -63,7 +63,7 @@ int main (int argc, char * argv[]) {
             if (line == "1")
                 Page::manager = new PageOptimal();
             else
-                std::cout << "Gerenciador de Espaço Desconhecido\n";
+                std::cout << "Gerenciador de Páginas Desconhecido\n";
         } else if (command == "executa") {
             Runner::execute(stoul(line, nullptr, 10));
         } else {
