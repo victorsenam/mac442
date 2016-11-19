@@ -13,6 +13,7 @@
 
 #include "page.h"
 #include "page_optimal.h"
+#include "page_second.h"
 
 std::string split (std::string & a, char sep) {
     int pos = a.find(sep);
@@ -62,6 +63,8 @@ int main (int argc, char * argv[]) {
 		} else if (command == "substitui") {
             if (line == "1")
                 Page::manager = new PageOptimal();
+            else if (line == "2")
+                Page::manager = new PageSecond();
             else
                 std::cout << "Gerenciador de Páginas Desconhecido\n";
         } else if (command == "executa") {
