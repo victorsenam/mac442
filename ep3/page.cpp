@@ -39,7 +39,7 @@ unsigned Page::map (unsigned virt_page) {
 
     if (phys_page >= Memory::total/Memory::page) {
         unsigned to_remove = manager->page_to_remove();
-        unsigned phys_page = table[to_remove];
+        phys_page = table[to_remove];
 
         update_virt(phys_page, to_remove);
         table.erase(to_remove);
