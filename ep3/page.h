@@ -14,6 +14,7 @@ public:
     static Algorithm * manager;
     static std::unordered_map<unsigned, unsigned> table;
     static std::vector<bool> r;
+    static unsigned faults;
 
     // receive positions from virtual memory
     static unsigned get (unsigned virt_position);

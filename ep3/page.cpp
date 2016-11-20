@@ -1,13 +1,16 @@
 #include "page.h"
+#include <ctime>
 
 std::unordered_map<unsigned, unsigned> Page::table;
 std::vector<bool> Page::r;
 Page::Algorithm * Page::manager;
+unsigned Page::faults;
 
 void Page::reinit () {
     Page::manager->reinit();
 
     Page::table.clear();
+    Page::faults = 0;
 
     Page::r.clear();
     Page::r.resize(Memory::total/Memory::page, 0);
@@ -20,6 +23,7 @@ unsigned Page::get (unsigned virt_position) {
     it = table.find(page);
 
     if (it == table.end()) {
+        Page::faults++;
         return map(page)*Memory::page + offset;
     } else {
         return it->second*Memory::page + offset;

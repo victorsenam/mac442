@@ -75,6 +75,7 @@ int main (int argc, char * argv[]) {
                 std::cout << "Gerenciador de Páginas Desconhecido\n";
         } else if (command == "executa") {
             Runner::execute(stoul(line, nullptr, 10));
+            printf("%d %.20f\n", Page::faults, Memory::elapsed_time);
         } else {
             std::cout << "Comando Desconhecido\n";
         }

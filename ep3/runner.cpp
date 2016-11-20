@@ -70,7 +70,10 @@ void Runner::execute (unsigned interval) {
             unsigned blocks_necessary = (curr.memory+Memory::block-1)/Memory::block;
             unsigned available_space = Memory::manager->find_free_space(blocks_necessary);
 
+            clock_t begin_time = clock(); 
             Memory::reserve(curr, blocks_necessary, available_space);
+            Memory::elapsed_time += float(clock() - begin_time)/CLOCKS_PER_SEC;
+
             Helper::assure(curr.first_block < Memory::virt/Memory::block, "Could not allocate memory! Exiting.");
         } else if (curr.current_task == int(curr.task.size())) {
             unsigned blocks_necessary = (curr.memory+Memory::block-1)/Memory::block;

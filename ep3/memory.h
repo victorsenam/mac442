@@ -16,7 +16,7 @@ public:
                         virt,
                         block,
                         page;
-
+    static float elapsed_time;
     static Algorithm * manager;
 
     // one position per byte
