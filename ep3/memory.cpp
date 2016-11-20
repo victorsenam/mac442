@@ -6,12 +6,16 @@ unsigned int Memory::total,
 			 Memory::page;
 std::vector<bool> Memory::used;
 Memory::Algorithm * Memory::manager;
+float Memory::elapsed_time;
+
 BinaryIO * Memory::io_physical;
 BinaryIO * Memory::io_virtual;
 
 void Memory::reinit () {
 	Memory::used.clear();
 	Memory::used.resize(Memory::virt/Memory::block, 0);
+
+    Memory::elapsed_time = 0.;
 
 	for (unsigned i = 0; i < Memory::total; i++)
 		Memory::io_physical->write(i, -1);
@@ -54,4 +58,5 @@ unsigned Memory::Algorithm::find_free_space (unsigned blocks) {
 
 void Memory::Algorithm::reinit () {
     return;
+
 }
