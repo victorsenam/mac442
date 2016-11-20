@@ -4,7 +4,9 @@ void PageOptimal::reinit () {
     if (!simulation_mode) {
         event.clear();
         simulation_mode = true;
+        current_time = 0;
         Runner::execute(0);
+        current_time = 0;
         simulation_mode = false;
     } else {
         for (unsigned i = 0; i < Memory::virt/Memory::page; i++)
@@ -15,6 +17,8 @@ void PageOptimal::reinit () {
 }
 
 unsigned PageOptimal::page_to_remove () {
+    if (simulation_mode) return 0;
+
     unsigned worst = Memory::virt/Memory::page;
     long long time = -1;
     for (auto mapped : Page::table) {
