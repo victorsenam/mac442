@@ -11,14 +11,15 @@ unsigned PageClock::page_to_remove () {
             ptr = fifo.begin();
 
         std::pair<unsigned, unsigned> to_remove = *ptr;
-        ++ptr;
 
         if (Page::r[to_remove.second]) {
             Page::r[to_remove.second] = 0;
-            fifo.insert(ptr, to_remove);
+            ++ptr;
         } else {
+            ptr = fifo.erase(ptr);
             return to_remove.first;
         }
+
     }
 }
 
