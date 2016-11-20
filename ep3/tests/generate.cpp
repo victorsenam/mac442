@@ -1,10 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int K = 15;
-const int N = 1<<K;
+const int N = 2e6;
 const double B = .125; // How much of free memory is used
-const double L = .125; // How local are the processes
+const double S = 1.; // How spread are the memory accesses
 
 int n, // number of processes
     m, // access per process
@@ -25,10 +24,7 @@ int main(){
     normal_distribution<double> normal(0,1);
     uniform_int_distribution<int> proc_time(0, T-1);
 
-    for(int i=0;i<N;i++) {
-        pt[i] = proc_time(gen);
-        at[i] = i%V;
-    }
+    for(int i=0;i<N;i++) pt[i] = proc_time(gen);
 
     printf("%d %d %d %d\n", M, V, s, p);
     sort(pt, pt+n);
@@ -42,27 +38,33 @@ int main(){
 
         int b   = B*fabs(normal(gen))*available;
         int tf  = pt[i] + (.9 + .1*normal(gen))*b;
-        int wnd = min(.5*p + .25*p*normal(gen), b-1.);
 
         printf("%d p%05d %d %d", pt[i], i, tf, b);
         available -= b;
         used.insert(make_pair(tf, b));
         risk = min(risk, available);
 
+        int _m = min(m, 1 + tf - pt[i]);
+        assert(0 < _m);
 
-        shuffle(at, at+N, gen);
-        sort(at, at+m);
+        for(int j=0;j <= tf - pt[i];j++) at[j] = pt[i] + j;
+        shuffle(at, at+tf-pt[i], gen);
+        sort(at, at+_m);
 
-        uniform_int_distribution<int> fst_time(0, b-1);
-        int t = fst_time(gen);
+        uniform_int_distribution<int> fst_access(0, b-1);
+        int a = fst_access(gen);
 
-        printf(" %d %d", t, at[0]);
-        for(int j=1;j<m;j++){
-            int np = max(0, min(int(.5*wnd + .25*normal(gen)), wnd-1));
-            if     (t + wnd/2 >= b) t = b - wnd/2 + np;
-            else if(t - wnd/2 <  0) t = np;
-            else                    t = t - wnd/2 + np;
-            printf(" %d %d", t, at[i]);
+        printf(" %d %d", a, at[0]);
+        for(int j=1;j<_m;j++){
+            int da = max(0, min(int(.5*p + S*p*normal(gen)), p-1)),
+                na = a - .5*p + da;
+            assert(0 <= da && da < p);
+            if     (na <  0) a = da;
+            else if(b <= na) a = b - p + da; 
+            else             a = na;
+            assert(0 <= a && a < b);
+            assert(pt[i] <= at[j] && at[j] <= tf);
+            printf(" %d %d", a, at[j]);
         }
         puts("");
     }
