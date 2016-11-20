@@ -1,15 +1,15 @@
 #include "runner.h"
 
 void Runner::dump_memory (BinaryIO * mem, unsigned size, std::string name, bool printused) {
-    printf("Bloco      ");
+    printf("Bloco      |Página    |");
     if (printused)
-        printf("|Usado? |");
+        printf("Usado? |");
     else
-        printf("        |");
+        printf("       |");
     printf("Conteúdo na %s", name.c_str());
     for (unsigned i = 0; i < size; i++) {
         if (i%Memory::block == 0) {
-            printf("\n%-10u ", i/Memory::block);
+            printf("\n%-10u |%-10u", i/Memory::block, i/Memory::page);
             if (printused && Memory::used[i/Memory::block])
                 printf("|  Sim  |");
             else
@@ -24,6 +24,14 @@ void Runner::dump_all (unsigned time) {
     printf("==== Estado da Memória: %us ====\n", time);
     Runner::dump_memory(Memory::io_virtual, Memory::virt, "Memória Virtual", true);
     Runner::dump_memory(Memory::io_physical, Memory::total, "Memória Física");
+
+    printf("Tabela de Páginas\n");
+    printf("Virtual   |Física    |\n");
+    for (auto mapped : Page::table) {
+        printf("%-10u|%-10u|\n", mapped.first, mapped.second);
+    }
+
+    fflush(stdout);
 }
 
 void Runner::execute (unsigned interval) {
