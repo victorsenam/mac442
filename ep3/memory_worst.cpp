@@ -1,3 +1,5 @@
+/* Nathan Benedetto Proença 8941276  **
+** Victor Sena Molero 8941317        */
 #include "memory_worst.h"
 
 unsigned MemoryWorst::find_free_space (unsigned blocks) {
