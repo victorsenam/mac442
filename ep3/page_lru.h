@@ -1,3 +1,5 @@
+/* Nathan Benedetto Proença 8941276  **
+** Victor Sena Molero 8941317        */
 // IMPLEMENTS LRU PAGE SUBSTITUTION ALGORITHM (4th version)
 #ifndef EP3_PAGE_LRU
 #define EP3_PAGE_LRU

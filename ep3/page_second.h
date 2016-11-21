@@ -1,3 +1,5 @@
+/* Nathan Benedetto Proença 8941276  **
+** Victor Sena Molero 8941317        */
 // IMPLEMENTS SECOND CHANCE PAGE SUBSTITUTION ALGORITHM
 #ifndef EP3_PAGE_SECOND
 #define EP3_PAGE_SECOND

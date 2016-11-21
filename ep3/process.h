@@ -1,3 +1,5 @@
+/* Nathan Benedetto Proença 8941276  **
+** Victor Sena Molero 8941317        */
 #ifndef EP3_PROCESS
 #define EP3_PROCESS
 

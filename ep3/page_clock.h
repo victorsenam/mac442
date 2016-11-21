@@ -1,3 +1,5 @@
+/* Nathan Benedetto Proença 8941276  **
+** Victor Sena Molero 8941317        */
 // IMPLEMENTS CLOCK PAGE SUBSTITUTION ALGORITHM
 #ifndef EP3_PAGE_CLOCK
 #define EP3_PAGE_CLOCK
