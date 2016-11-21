@@ -55,7 +55,6 @@ int main(){
         uniform_int_distribution<int> fst_access(0, b-1);
         int a = fst_access(gen);
 
-        accesses += _m;
         printf(" %d %d", a, at[0]);
         for(int j=1;j<_m;j++){
             int da = max(0, min(int(.5*p + S*p*normal(gen)), p-1)),
@@ -68,6 +67,7 @@ int main(){
             assert(0 <= a && a < b);
             assert(pt[i] <= at[j] && at[j] <= tf);
             printf(" %d %d", a, at[j]);
+            accesses++;
         }
         puts("");
     }
